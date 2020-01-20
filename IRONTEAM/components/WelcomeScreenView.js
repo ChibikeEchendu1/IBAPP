@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {View, Image, Animated, AsyncStorage, Text} from 'react-native';
+import {
+  View,
+  Image,
+  Animated,
+  AsyncStorage,
+  Text,
+  SafeAreaView,
+} from 'react-native';
 import {logincheck} from '../actions';
 import {connect} from 'react-redux';
 
@@ -70,12 +77,13 @@ class WelcomeScreenView extends Component {
           opacity: fadeAnim,
           backgroundColor: 'white', // Bind opacity to animated value
         }}>
-        {/*  <Image
-          resizeMode="contain"
-          style={{width: '100%', height: '100%'}}
-          source={require('../images/logo.jpeg')}
-        /> */}
-        <Text>splash!!!!!</Text>
+        <SafeAreaView style={{display: 'flex', justifyContent: 'center'}}>
+          <Image
+            resizeMode="contain"
+            style={{width: '100%', height: '80%'}}
+            source={require('../images/OOO.jpg')}
+          />
+        </SafeAreaView>
       </Animated.View>
     );
   }

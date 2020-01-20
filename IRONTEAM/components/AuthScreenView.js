@@ -76,12 +76,18 @@ class AuthScreenView extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={{height: '30%', width: '80%', alignSelf: 'center'}}>
-          {/*  <Image
+        <View
+          style={{
+            height: '20%',
+            width: '80%',
+            marginBottom: 30,
+            alignSelf: 'center',
+          }}>
+          <Image
             resizeMode="contain"
             style={{width: '100%', alignSelf: 'center', height: '100%'}}
-            source={require('../images/logo.jpeg')}
-          /> */}
+            source={require('../images/OOO.jpg')}
+          />
         </View>
 
         <Input

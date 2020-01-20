@@ -18,12 +18,16 @@ import {
 
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {VARIABLES} from './utils/Variables';
+import {createStackNavigator} from 'react-navigation-stack';
 
+import {VARIABLES} from './utils/Variables';
+import Searchprospect from './screens/Searchprospect';
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SignupScreen from './screens/SignupScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import AddProspect from './screens/AddProspect';
+import ProspectHome from './screens/ProspectHome';
 
 //import ProfileScreen from './screens/ProfileScreen';
 
@@ -53,130 +57,139 @@ const TabNavigator = createBottomTabNavigator({
     },
   },
   Main: {
-    screen: createBottomTabNavigator({
-      ProfileScreen: {
-        screen: ProfileScreen,
-        navigationOptions: {
-          gesturesEnabled: false,
-          headerLeft: null,
-          tabBarVisible: false,
+    screen: createBottomTabNavigator(
+      {
+        Calculator: createBottomTabNavigator(
+          {
+            Home: {
+              screen: ProfileScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+            Orders: {
+              screen: SignupScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+            History: {
+              screen: ProfileScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+          },
+          {
+            initialRouteName: 'Home',
+            tabBarOptions: {
+              activeTintColor: VARIABLES.Color,
+              inactiveColor: '#3e2465',
+              showIcon: true,
+              style: {
+                backgroundColor: 'white',
+              },
+              // barStyle: { backgroundColor: '#FA2700' },
+              // activeBackgroundColor: '#FA2700',
+            },
+          },
+        ),
+        Home: {
+          screen: createStackNavigator({
+            ProfileScreen: {
+              screen: ProfileScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+                header: null,
+              },
+            },
+          }),
+        },
+        prospect: {
+          screen: createStackNavigator({
+            Searchprospect: {
+              screen: Searchprospect,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+                header: null,
+              },
+            },
+            AddProspect: {
+              screen: AddProspect,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+                header: null,
+              },
+            },
+            ProspectHome: {
+              screen: ProspectHome,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+                header: null,
+              },
+            },
+          }),
+        },
+        Statistics: createBottomTabNavigator(
+          {
+            Home: {
+              screen: ProfileScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+            Worker: {
+              screen: SignupScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+            History: {
+              screen: ProfileScreen,
+              navigationOptions: {
+                gesturesEnabled: false,
+                headerLeft: null,
+              },
+            },
+          },
+          {
+            initialRouteName: 'Home',
+            tabBarOptions: {
+              activeTintColor: VARIABLES.Color,
+              inactiveColor: '#3e2465',
+              showIcon: true,
+              style: {
+                backgroundColor: 'white',
+              },
+              // barStyle: { backgroundColor: '#FA2700' },
+              // activeBackgroundColor: '#FA2700',
+            },
+          },
+        ),
+      },
+      {
+        initialRouteName: 'Home',
+        tabBarOptions: {
+          activeTintColor: VARIABLES.Color,
+          inactiveColor: '#3e2465',
+          showIcon: true,
+          style: {
+            backgroundColor: 'white',
+          },
+          // barStyle: { backgroundColor: '#FA2700' },
+          // activeBackgroundColor: '#FA2700',
         },
       },
-      Worker: createBottomTabNavigator(
-        {
-          Home: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          Orders: {
-            screen: SignupScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          History: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-        },
-        {
-          initialRouteName: 'Home',
-          tabBarOptions: {
-            activeTintColor: VARIABLES.Color,
-            inactiveColor: '#3e2465',
-            showIcon: true,
-            style: {
-              backgroundColor: 'white',
-            },
-            // barStyle: { backgroundColor: '#FA2700' },
-            // activeBackgroundColor: '#FA2700',
-          },
-        },
-      ),
-      Store: createBottomTabNavigator(
-        {
-          Home: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          Worker: {
-            screen: SignupScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          History: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-        },
-        {
-          initialRouteName: 'Home',
-          tabBarOptions: {
-            activeTintColor: VARIABLES.Color,
-            inactiveColor: '#3e2465',
-            showIcon: true,
-            style: {
-              backgroundColor: 'white',
-            },
-            // barStyle: { backgroundColor: '#FA2700' },
-            // activeBackgroundColor: '#FA2700',
-          },
-        },
-      ),
-      Admin: createBottomTabNavigator(
-        {
-          Home: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          Worker: {
-            screen: SignupScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-          History: {
-            screen: ProfileScreen,
-            navigationOptions: {
-              gesturesEnabled: false,
-              headerLeft: null,
-            },
-          },
-        },
-        {
-          initialRouteName: 'Home',
-          tabBarOptions: {
-            activeTintColor: VARIABLES.Color,
-            inactiveColor: '#3e2465',
-            showIcon: true,
-            style: {
-              backgroundColor: 'white',
-            },
-            // barStyle: { backgroundColor: '#FA2700' },
-            // activeBackgroundColor: '#FA2700',
-          },
-        },
-      ),
-    }),
+    ),
     navigationOptions: {
       gesturesEnabled: false,
       headerLeft: null,

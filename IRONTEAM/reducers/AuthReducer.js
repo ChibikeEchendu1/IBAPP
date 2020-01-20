@@ -3,11 +3,18 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   name: '',
+  address: '',
+  tot: '',
+  type: '',
+  Companies: [],
   EmailError: '',
   PasswordError: '',
   user: {},
   NameError: '',
   items: [],
+  Profile: {},
+  Loader: false,
+  Added: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,7 +23,10 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'Login_Done':
       return {...state, logedin: true};
-
+    case 'Fetch_Companies':
+      return {...state, Companies: action.payload};
+    case 'Fetch_Profie':
+      return {...state, Profile: action.payload};
     case 'Login_NO':
       return {...state, new: true};
     case 'item_clered':
@@ -48,7 +58,16 @@ export default (state = INITIAL_STATE, action) => {
 
     case 'Name_changed':
       return {...state, name: action.payload};
+    case 'Address_changed':
+      return {...state, place: action.payload};
 
+    case 'annothernameChanged':
+      return {...state, tot: action.payload};
+    case 'Type_Changed':
+      return {...state, type: action.payload};
+
+    case 'Added':
+      return {...state, Added: action.payload};
     case 'Email_Error':
       return {...state, EmailError: action.payload};
 
