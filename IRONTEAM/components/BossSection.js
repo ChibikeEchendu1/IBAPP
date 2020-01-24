@@ -73,6 +73,7 @@ class BossSection extends Component {
           marginLeft: '10%',
           height: Normalize(150),
           flexDirection: 'row',
+          borderRadius: 50,
           alignItems: 'center',
         }}>
         <View>
@@ -82,6 +83,7 @@ class BossSection extends Component {
               style={{
                 width: Normalize(80),
                 height: Normalize(80),
+                borderRadius: Normalize(40),
               }}
               source={{
                 uri: VARIABLES.IP + '/' + this.props.Profile.ImagePath,

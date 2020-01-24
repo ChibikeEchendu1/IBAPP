@@ -24,9 +24,10 @@ import {
   NameChanged,
   AddressChanged,
   TypeChanged,
+  anChanged,
   emailChanged,
   annothernameChanged,
-  AddProspect,
+  AddPayment,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -67,7 +68,7 @@ class PaymentView extends Component {
   }
 
   onTypeC(text) {
-    this.props.TypeChanged(text);
+    this.props.anChanged(text);
   }
 
   onSummeryC(text) {
@@ -76,29 +77,22 @@ class PaymentView extends Component {
 
   added() {
     if (this.props.Added) {
-      this.props.navigation.navigate('Searchprospect');
+      //this.props.navigation.navigate('Searchprospect');
       this.props.navigation.navigate('ProfileScreen');
     }
   }
 
   onButtonPress() {
-    const {email, name, tot, type} = this.props;
+    const {name, AN} = this.props;
     const {value} = this.state;
 
-    console.log(email, name, tot, type, value, 'vals');
+    console.log(name, value, 'vals');
 
-    if (
-      email == '' ||
-      name == '' ||
-      tot == '' ||
-      type == '' ||
-      value == '' ||
-      value == null
-    ) {
+    if (name == '' || AN == '' || value == '' || value == null) {
       this.setState({Error: 'Enter All Feilds'});
     } else {
       this.setState({Error: ''});
-      this.props.AddProspect({email, name, tot, type, value});
+      this.props.AddPayment({name, AN, value});
     }
   }
 
@@ -153,13 +147,13 @@ class PaymentView extends Component {
           />
 
           <Input
-            value={this.props.type}
+            value={this.props.AN}
             inputStyle={{}}
             onChangeText={this.onTypeC.bind(this)}
             placeholder="Account Number"
             errorStyle={{color: 'red'}}
             keyboardType="number-pad"
-            errorMessage={this.props.PasswordError}
+            errorMessage={this.props.ANError}
             inputContainerStyle={{
               width: '90%',
               alignSelf: 'center',
@@ -220,11 +214,13 @@ const mapStateToProps = state => {
     tot: state.auth.tot,
     type: state.auth.type,
     email: state.auth.email,
+    AN: state.auth.AN,
     Added: state.auth.Added,
     EmailError: state.auth.EmailError,
     PasswordError: state.auth.PasswordError,
     Loader: state.auth.Loader,
     logedin: state.auth.logedin,
+    ANError: state.auth.ANError,
   };
 };
 
@@ -236,6 +232,7 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    AddProspect,
+    AddPayment,
+    anChanged,
   },
 )(PaymentView);

@@ -93,15 +93,11 @@ class ProfileSectionMarketer extends Component {
         </View>
 
         <TouchableOpacity
-          onPress={() => {
-            ImagePicker.openPicker({
-              width: 300,
-              height: 400,
-              cropping: true,
-            }).then(image => {
-              this.props.AddPick(image);
-            });
-          }}
+          onPress={() =>
+            this.props.navigation.navigate('EditMarketer', {
+              Profile: this.props.Profile,
+            })
+          }
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -117,9 +113,9 @@ class ProfileSectionMarketer extends Component {
             {this.props.Profile.Persentage}%
           </Text>
           <Icon
-            name="camera-retro"
+            name="edit"
             color={VARIABLES.sparing}
-            size={20}
+            size={25}
             style={{alignSelf: 'center', marginLeft: 10}}
           />
         </TouchableOpacity>

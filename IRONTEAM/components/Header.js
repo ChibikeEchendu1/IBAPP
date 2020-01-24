@@ -77,7 +77,7 @@ class Header extends Component {
             display: 'flex',
             flexDirection: 'row',
           }}>
-          {this.props.Profile.Type == 0 ? (
+          {this.props.Profile.Type != 0 ? (
             <TouchableOpacity
               style={{
                 marginRight: 10,

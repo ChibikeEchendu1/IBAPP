@@ -25,7 +25,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationEvents} from 'react-navigation';
 
 const SCREENWIDTH = Dimensions.get('window').width;
-
+const placeholder = {
+  label: 'Select a Product...',
+  value: null,
+  color: '#9EA0A4',
+};
 class MarketerHomeView extends Component {
   constructor(props) {
     super(props);
@@ -103,7 +107,10 @@ class MarketerHomeView extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-          <ProfileSectionMarketer Profile={this.state.Prospect} />
+          <ProfileSectionMarketer
+            navigation={this.props.navigation}
+            Profile={this.state.Prospect}
+          />
           <Input
             placeholder="...Search Name"
             leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}

@@ -47,6 +47,9 @@ import Password from './screens/Password';
 import BossScreen from './screens/BossScreen';
 import ProspectOPtiionsMarketers from './screens/ProspectOPtiionsMarketers';
 import ProspectHomeMarketer from './screens/ProspectHomeMarketer';
+import Champion from './screens/Champion';
+import TheDeal from './screens/TheDeal';
+import EditMarketer from './screens/EditMarketer';
 
 import {BackHeader} from './components/BackHeader';
 //import ProfileScreen from './screens/ProfileScreen';
@@ -311,6 +314,52 @@ const TabNavigator = createBottomTabNavigator({
                 ),
                 headerTitle: () => (
                   <Text style={{color: VARIABLES.Color}}>NEW CONTACT</Text>
+                ),
+              }),
+            },
+            TheDeal: {
+              screen: TheDeal,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>DEAL</Text>
+                ),
+              }),
+            },
+            Champion: {
+              screen: Champion,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHAMPION</Text>
                 ),
               }),
             },
@@ -601,6 +650,75 @@ const TabNavigator = createBottomTabNavigator({
                 ),
                 headerTitle: () => (
                   <Text style={{color: VARIABLES.Color}}>PROSPECT</Text>
+                ),
+              }),
+            },
+            TheDeal: {
+              screen: TheDeal,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>DEAL</Text>
+                ),
+              }),
+            },
+            EditMarketer: {
+              screen: EditMarketer,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>EDIT</Text>
+                ),
+              }),
+            },
+            Champion: {
+              screen: Champion,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHAMPION</Text>
                 ),
               }),
             },

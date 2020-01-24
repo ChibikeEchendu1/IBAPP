@@ -110,7 +110,7 @@ class ProfileScreenView extends Component {
           </Text>
 
           <Text style={{marginLeft: 10}}>
-            Balance: {this.props.Profile.Balance}
+            Estimate Balance: {this.props.Profile.Balance}
           </Text>
         </View>
 

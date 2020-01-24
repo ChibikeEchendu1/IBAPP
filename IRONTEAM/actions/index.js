@@ -194,6 +194,123 @@ export const AddProspect = ({email, name, tot, type, value}) => {
   };
 };
 
+export const AddPayment = ({name, AN, value}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/AddPayment', {
+      name,
+      AN,
+      value,
+      token: JSON.parse(token),
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const ChangeScore = ({tot, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/ChangeScore', {
+      tot,
+      _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const Promote = ({tot, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/Promote', {
+      tot,
+      _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const Comment = ({tot, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/Comment', {
+      tot,
+      _id,
+      token: JSON.parse(token),
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const ChangeMax = ({tot, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/ChangeMax', {
+      tot,
+      _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
 export const AddChamp = ({deal, name, AN, type, value, Bank, _id}) => {
   console.log('we here');
 
@@ -221,6 +338,31 @@ export const AddChamp = ({deal, name, AN, type, value, Bank, _id}) => {
   };
 };
 
+export const Deal = ({name, type, tot, Type, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/Deal', {
+      name,
+      type,
+      tot,
+      Type,
+      _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
 export const AddContact = ({name, type, value, _id}) => {
   console.log('we here');
 
@@ -231,6 +373,28 @@ export const AddContact = ({name, type, value, _id}) => {
       type,
       value,
       _id,
+    });
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const AddReport = ({email, Rating, _id, Type}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/AddReport', {
+      email,
+      Rating,
+      _id,
+      Type,
     });
 
     if (typeof res.data.error != 'undefined') {

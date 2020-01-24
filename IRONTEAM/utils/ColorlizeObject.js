@@ -6,7 +6,12 @@ const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 const scale = SCREEN_WIDTH / 360;
 
 export default level => {
-  if (level == undefined || level == {} || level == false) {
+  if (
+    level == undefined ||
+    level == {} ||
+    level == false ||
+    level.length == 0
+  ) {
     return VARIABLES.lightGray;
   } else {
     return VARIABLES.Color;

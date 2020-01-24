@@ -117,9 +117,15 @@ class ProspectHomeView extends Component {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-evenly',
-              marginBottom: Normalize(40),
+              marginBottom: Normalize(30),
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('Champion', {
+                  Prospect: this.state.Prospect,
+                  type: 'Data Collected',
+                });
+              }}>
               <Icon
                 name="star"
                 size={30}
@@ -127,15 +133,14 @@ class ProspectHomeView extends Component {
                 color={ColorlizeObject(Champion)}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Icon
-                name="table"
-                size={30}
-                style={{marginRight: 10, marginLeft: 10}}
-                color={ColorlizeObject(Data)}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('TheDeal', {
+                  Prospect: this.state.Prospect,
+                  type: 'Data Collected',
+                });
+              }}>
               <Icon
                 name="thumbs-up"
                 size={30}

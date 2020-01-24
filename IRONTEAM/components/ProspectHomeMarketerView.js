@@ -31,6 +31,8 @@ import {
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import Colorlize from '../utils/Colorlize';
+import ColorlizeObject from '../utils/ColorlizeObject';
+import Normalize from '../utils/Normalize';
 
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
@@ -96,12 +98,56 @@ class ProspectHomeMarketerView extends Component {
   }
 
   render() {
-    const {Name, Persentage, Contacts} = this.state.Prospect;
+    const {
+      Name,
+      Persentage,
+      Contacts,
+      Champion,
+      Data,
+      Deal,
+    } = this.state.Prospect;
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
           style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginBottom: Normalize(30),
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('Champion', {
+                  Prospect: this.state.Prospect,
+                  type: 'Data Collected',
+                });
+              }}>
+              <Icon
+                name="star"
+                size={30}
+                style={{marginRight: 10, marginLeft: 10}}
+                color={ColorlizeObject(Champion)}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('TheDeal', {
+                  Prospect: this.state.Prospect,
+                  type: 'Data Collected',
+                });
+              }}>
+              <Icon
+                name="thumbs-up"
+                size={30}
+                style={{marginRight: 10, marginLeft: 10}}
+                color={ColorlizeObject(Deal)}
+              />
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate('ProspectOPtiionsMarketers', {

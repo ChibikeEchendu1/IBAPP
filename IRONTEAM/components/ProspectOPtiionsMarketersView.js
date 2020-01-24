@@ -16,7 +16,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import MyProspectList from './MyProspectList';
+import ReportList from './ReportList';
 
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -87,7 +87,7 @@ class ProspectOPtiionsMarketersView extends Component {
   }
 
   renderRow(item) {
-    return <MyProspectList navigation={this.props.navigation} item={item} />;
+    return <ReportList navigation={this.props.navigation} item={item} />;
   }
 
   renderRefreshControl() {
@@ -95,7 +95,12 @@ class ProspectOPtiionsMarketersView extends Component {
   }
 
   render() {
-    const {Name, Persentage, Contacts} = this.state.Prospect;
+    const {
+      Name,
+      Persentage,
+      Contacts,
+      MeetingsAndTraining,
+    } = this.state.Prospect;
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -110,320 +115,15 @@ class ProspectOPtiionsMarketersView extends Component {
             }}>
             <Text style={{fontSize: Normalize(30)}}>{Name}</Text>
           </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('AddContact', {
-                Prospect: this.state.Prospect,
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="address-book"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Reports'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('Meeting', {
-                Prospect: this.state.Prospect,
-                type: 'Meeting',
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="users"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>
-                {'Decision Meeting'}
-              </Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('Deal', {
-                Prospect: this.state.Prospect,
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="thumbs-up"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Deal Agreed'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('ProspectOPtiions', {
-                Prospect: this.state.Prospect,
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="table"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-
-              <Text style={{fontSize: Normalize(20)}}>{'Data Collected'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('Meeting', {
-                Prospect: this.state.Prospect,
-                type: 'Training',
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="user"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Training'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('AddChampion', {
-                Prospect: this.state.Prospect,
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="star"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>
-                {'Prospect Champion'}
-              </Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('Meeting', {
-                Prospect: this.state.Prospect,
-                type: 'End User Interaction',
-              });
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="comments-o"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>
-                {'End User Interaction'}
-              </Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
+          <FlatList
+            style={{height: '52%', marginLeft: '8%'}}
+            data={MeetingsAndTraining.reverse()}
+            renderItem={({item}) => this.renderRow(item)}
+            keyExtractor={(item, index) => index}
+            onRefresh={() => this.renderRefreshControl()}
+            refreshing={this.props.Loader}
+            initialNumToRender={8}
+          />
           {this.added()}
         </SafeAreaView>
       </TouchableWithoutFeedback>

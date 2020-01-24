@@ -19,7 +19,7 @@ import {
   emailChanged,
   annothernameChanged,
   AddProspect,
-  AddContact,
+  Deal,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -76,14 +76,39 @@ class DealView extends Component {
   }
 
   onButtonPress() {
-    const {email, name, type} = this.props;
+    const {email, name, type, tot} = this.props;
     const {value, Prospect} = this.state;
     const _id = this.state.Prospect._id;
-    if (name == '' || type == '' || value == '' || value == null) {
-      this.setState({Error: 'Enter All Feilds'});
-    } else {
-      this.setState({Error: ''});
-      this.props.AddContact({name, type, value, _id});
+    if (value == 1) {
+      const Type = 'Grade Grubb';
+      if (name == '' || type == '' || tot == '') {
+        this.setState({Error: 'Enter All Feilds'});
+      } else {
+        this.setState({Error: ''});
+        console.log(name, type, tot, 'vals');
+
+        this.props.Deal({name, type, tot, Type, _id});
+      }
+    } else if (value == 0) {
+      const Type = 'CartAList';
+      if (tot == '') {
+        this.setState({Error: 'Enter All Feilds'});
+      } else {
+        this.setState({Error: ''});
+        console.log(name, type, tot, 'vals');
+
+        this.props.Deal({name, type, tot, Type, _id});
+      }
+    } else if (value == 2) {
+      const Type = 'Building Materials';
+      if (tot == '') {
+        this.setState({Error: 'Enter All Feilds'});
+      } else {
+        this.setState({Error: ''});
+        console.log(name, type, tot, 'vals');
+
+        this.props.Deal({name, type, tot, Type, _id});
+      }
     }
   }
 
@@ -92,13 +117,17 @@ class DealView extends Component {
       return (
         <View>
           <Input
-            placeholder="email"
-            value={this.props.name}
-            onChangeText={this.onEmailC.bind(this)}
+            placeholder="Invoice Email Address"
+            value={this.props.tot}
+            onChangeText={this.onnameC.bind(this)}
             inputStyle={{}}
             errorStyle={{color: 'red'}}
             errorMessage={this.props.EmailError}
-            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
           />
 
           <View
@@ -180,8 +209,36 @@ class DealView extends Component {
           </View>
         </View>
       );
-    } else {
-      return null;
+    } else if (this.state.value == 2) {
+      return (
+        <View>
+          <Input
+            placeholder="Invoice Email Address"
+            value={this.props.tot}
+            onChangeText={this.onnameC.bind(this)}
+            inputStyle={{}}
+            errorStyle={{color: 'red'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
+
+          <View
+            style={{
+              alignSelf: 'center',
+              marginTop: 30,
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 20}}>My Pay</Text>
+            <Text style={{fontSize: 20}}>
+              {this.state.Prospect.share.First}
+            </Text>
+          </View>
+        </View>
+      );
     }
   }
 
@@ -299,6 +356,6 @@ export default connect(
     emailChanged,
     annothernameChanged,
     AddProspect,
-    AddContact,
+    Deal,
   },
 )(DealView);

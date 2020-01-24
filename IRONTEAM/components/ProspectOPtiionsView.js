@@ -247,8 +247,9 @@ class ProspectOPtiionsView extends Component {
 
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate('ProspectOPtiions', {
+              this.props.navigation.navigate('Meeting', {
                 Prospect: this.state.Prospect,
+                type: 'Data Collected',
               });
             }}
             style={{

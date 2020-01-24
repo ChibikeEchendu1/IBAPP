@@ -76,14 +76,16 @@ class CalculatorView extends Component {
   }
 
   onButtonPress() {
-    const {email, name, type} = this.props;
+    const {email, name, type, tot} = this.props;
     const {value, Prospect} = this.state;
     const _id = this.state.Prospect._id;
     if (name == '' || type == '' || value == '' || value == null) {
       this.setState({Error: 'Enter All Feilds'});
     } else {
       this.setState({Error: ''});
-      this.props.AddContact({name, type, value, _id});
+      console.log(name, type, tot, 'vals');
+
+      //  this.props.Deal({name, type, value, _id});
     }
   }
 
@@ -156,56 +158,7 @@ class CalculatorView extends Component {
         </View>
       );
     } else if (this.state.value == 1) {
-      return (
-        <View>
-          <Input
-            placeholder="Price"
-            value={this.props.name}
-            onChangeText={this.onEmailC.bind(this)}
-            inputStyle={{}}
-            keyboardType="number-pad"
-            errorStyle={{color: 'red'}}
-            errorMessage={this.props.EmailError}
-            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-          />
-          <Input
-            value={this.props.type}
-            inputStyle={{}}
-            onChangeText={this.onTypeC.bind(this)}
-            placeholder="Number of People"
-            keyboardType="number-pad"
-            errorStyle={{color: 'red'}}
-            errorMessage={this.props.PasswordError}
-            inputContainerStyle={{
-              width: '90%',
-              alignSelf: 'center',
-              marginTop: 30,
-            }}
-          />
-
-          <View
-            style={{
-              alignSelf: 'center',
-              marginTop: 30,
-              alignItems: 'center',
-            }}>
-            <Text style={{fontSize: 20}}>Total/Term</Text>
-            <Text style={{fontSize: 20}}>
-              {this.props.name * this.props.type}
-            </Text>
-            <Text style={{fontSize: 20, marginTop: 20}}>My First Cut</Text>
-            <Text style={{fontSize: 20}}>
-              {this.props.name * this.props.type}
-            </Text>
-            <Text style={{fontSize: 20, marginTop: 20}}>
-              Subequent Cut(2 Years)
-            </Text>
-            <Text style={{fontSize: 20}}>
-              {this.props.name * this.props.type}
-            </Text>
-          </View>
-        </View>
-      );
+      return null;
     } else {
       return null;
     }

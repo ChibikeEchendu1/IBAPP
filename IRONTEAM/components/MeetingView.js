@@ -23,7 +23,7 @@ import {
   TypeChanged,
   emailChanged,
   annothernameChanged,
-  AddProspect,
+  AddReport,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -42,6 +42,8 @@ class MeetingView extends Component {
       PasswordError: '',
       value: '',
       Error: '',
+      Rating: 3,
+      Prospect: this.props.navigation.state.params.Prospect,
     };
   }
 
@@ -79,23 +81,17 @@ class MeetingView extends Component {
   }
 
   onButtonPress() {
-    const {email, name, tot, type} = this.props;
-    const {value} = this.state;
+    const {email, name, tot, Type} = this.props;
+    const {Rating} = this.state;
+    const {_id} = this.state.Prospect;
 
-    console.log(email, name, tot, type, value, 'vals');
+    console.log(email, Rating, Type, _id, 'vals');
 
-    if (
-      email == '' ||
-      name == '' ||
-      tot == '' ||
-      type == '' ||
-      value == '' ||
-      value == null
-    ) {
+    if (email == '') {
       this.setState({Error: 'Enter All Feilds'});
     } else {
       this.setState({Error: ''});
-      this.props.AddProspect({email, name, tot, type, value});
+      this.props.AddReport({email, Rating, _id, Type});
     }
   }
 
@@ -147,6 +143,9 @@ class MeetingView extends Component {
             reviews={['Terrible', 'Meh', 'OK', 'Very Good', 'Unbelievable']}
             defaultRating={3}
             size={40}
+            onFinishRating={Rating => {
+              this.setState({Rating});
+            }}
           />
           <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
             Report
@@ -226,6 +225,6 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    AddProspect,
+    AddReport,
   },
 )(MeetingView);
