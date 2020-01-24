@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
   TextInput,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
@@ -135,78 +137,80 @@ class AddProspectView extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <Text style={{fontSize: 30, alignSelf: 'center'}}>New Prospect</Text>
-        <Input
-          placeholder="Name"
-          value={this.props.name}
-          onChangeText={this.onEmailC.bind(this)}
-          inputStyle={{}}
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-        />
-        <Input
-          placeholder="Detailed Address"
-          value={this.props.tot}
-          onChangeText={this.onnameC.bind(this)}
-          inputStyle={{}}
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <Text style={{fontSize: 30, alignSelf: 'center'}}>New Prospect</Text>
+          <Input
+            placeholder="Name"
+            value={this.props.name}
+            onChangeText={this.onEmailC.bind(this)}
+            inputStyle={{}}
+            errorStyle={{color: 'red'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
+          />
+          <Input
+            placeholder="Detailed Address"
+            value={this.props.tot}
+            onChangeText={this.onnameC.bind(this)}
+            inputStyle={{}}
+            errorStyle={{color: 'red'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
 
-        <Input
-          value={this.props.type}
-          inputStyle={{}}
-          onChangeText={this.onTypeC.bind(this)}
-          placeholder="Type"
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.PasswordError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
+          <Input
+            value={this.props.type}
+            inputStyle={{}}
+            onChangeText={this.onTypeC.bind(this)}
+            placeholder="Type"
+            errorStyle={{color: 'red'}}
+            errorMessage={this.props.PasswordError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
 
-        <RNPickerSelect
-          onValueChange={value => this.setState({value})}
-          style={pickerSelectStyles}
-          placeholder={placeholder}
-          items={[
-            {label: 'Grade Grubb', value: 'GradeGrubb'},
-            {label: 'CartAList', value: 'CartAList'},
-            {label: 'Building Materials', value: 'BuildingMaterials'},
-          ]}
-        />
+          <RNPickerSelect
+            onValueChange={value => this.setState({value})}
+            style={pickerSelectStyles}
+            placeholder={placeholder}
+            items={[
+              {label: 'Grade Grubb', value: 'GradeGrubb'},
+              {label: 'CartAList', value: 'CartAList'},
+              {label: 'Building Materials', value: 'BuildingMaterials'},
+            ]}
+          />
 
-        <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
-          I belive this is a good Prospect Because
-        </Text>
-        <TextInput
-          style={{
-            height: '20%',
-            width: '90%',
-            alignSelf: 'center',
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          multiline={true}
-          numberOfLines={20}
-          onChangeText={this.onSummeryC.bind(this)}
-          value={this.props.email}
-        />
-        <Text style={{color: 'red', alignSelf: 'center'}}>
-          {this.state.Error}
-        </Text>
-        {this.renderButton()}
-        {this.added()}
-      </SafeAreaView>
+          <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
+            I belive this is a good Prospect Because
+          </Text>
+          <TextInput
+            style={{
+              height: '20%',
+              width: '90%',
+              alignSelf: 'center',
+              borderColor: 'gray',
+              borderWidth: 1,
+            }}
+            multiline={true}
+            numberOfLines={20}
+            onChangeText={this.onSummeryC.bind(this)}
+            value={this.props.email}
+          />
+          <Text style={{color: 'red', alignSelf: 'center'}}>
+            {this.state.Error}
+          </Text>
+          {this.renderButton()}
+          {this.added()}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }

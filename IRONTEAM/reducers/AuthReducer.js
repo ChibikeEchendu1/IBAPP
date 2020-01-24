@@ -11,10 +11,18 @@ const INITIAL_STATE = {
   PasswordError: '',
   user: {},
   NameError: '',
+  deal: '',
+  ANError: '',
+  AN: '',
+  DealError: '',
   items: [],
   Profile: {},
   Loader: false,
   Added: false,
+  Comments: {
+    Items: [],
+    Valies: [],
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -40,6 +48,8 @@ export default (state = INITIAL_STATE, action) => {
       };
     case 'Item_changed':
       return {...state, itemName: action.payload};
+    case 'Fetch_Comments':
+      return {...state, Comments: action.payload};
     case 'Quan_changed':
       return {...state, Quan: action.payload};
     case 'Size_changed':
@@ -56,6 +66,12 @@ export default (state = INITIAL_STATE, action) => {
     case 'Password_changed':
       return {...state, password: action.payload};
 
+    case 'Deal_changed':
+      return {...state, deal: action.payload, DealError: ''};
+
+    case 'AN_changed':
+      return {...state, AN: action.payload, ANError: ''};
+
     case 'Name_changed':
       return {...state, name: action.payload};
     case 'Address_changed':
@@ -70,6 +86,10 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, Added: action.payload};
     case 'Email_Error':
       return {...state, EmailError: action.payload};
+    case 'Deal_Error':
+      return {...state, DealError: action.payload};
+    case 'AN_Error':
+      return {...state, ANError: action.payload};
 
     case 'Password_Error':
       return {...state, PasswordError: action.payload};

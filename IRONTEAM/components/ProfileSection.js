@@ -6,16 +6,21 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {FetchProfile} from '../actions';
+import {FetchProfile, AddPick} from '../actions';
 import {connect} from 'react-redux';
 import Normalize from '../utils/Normalize';
+import Colorlize from '../utils/Colorlize';
+
 import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationEvents} from 'react-navigation';
 import ProgressCircle from 'react-native-progress-circle';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const SCREENWIDTH = Dimensions.get('window').width;
 
@@ -62,18 +67,7 @@ class ProfileScreenView extends Component {
   }
   renderList() {
     if (this.props.Loader) {
-      return (
-        <ActivityIndicator
-          style={{
-            marginTop: 10,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            flex: 1,
-          }}
-          color={VARIABLES.Color}
-          size={'large'}
-        />
-      ); //
+      return null; //
     }
     return (
       <View
@@ -85,10 +79,10 @@ class ProfileScreenView extends Component {
         }}>
         <View>
           <ProgressCircle
-            percent={30}
+            percent={this.props.Profile.Persentage}
             radius={50}
             borderWidth={8}
-            color="#3399FF"
+            color={Colorlize(this.props.Profile.Persentage)}
             shadowColor="#999"
             bgColor="#fff">
             {this.props.Profile.ImagePath ? (
@@ -114,6 +108,7 @@ class ProfileScreenView extends Component {
           <Text style={{marginTop: 10, marginLeft: 10}}>
             Name: {this.props.Profile.Name}
           </Text>
+
           <Text style={{marginLeft: 10}}>
             Balance: {this.props.Profile.Balance}
           </Text>
@@ -121,13 +116,33 @@ class ProfileScreenView extends Component {
 
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate('AddItem');
+            ImagePicker.openPicker({
+              width: 300,
+              height: 400,
+              cropping: true,
+            }).then(image => {
+              this.props.AddPick(image);
+            });
+          }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
+          <Text
+            style={{
+              marginTop: 10,
+              marginLeft: 10,
+              fontSize: 20,
+              color: Colorlize(this.props.Profile.Persentage),
+            }}>
+            {this.props.Profile.Persentage}%
+          </Text>
           <Icon
             name="camera-retro"
             color={VARIABLES.sparing}
             size={20}
-            style={{alignSelf: 'center', marginLeft: 30}}
+            style={{alignSelf: 'center', marginLeft: 10}}
           />
         </TouchableOpacity>
       </View>
@@ -136,7 +151,7 @@ class ProfileScreenView extends Component {
 
   render() {
     return (
-      <View style={{borderBottomWidth: 1, borderBottomColor: VARIABLES.color}}>
+      <View style={{borderBottomColor: VARIABLES.color}}>
         <NavigationEvents
           onDidFocus={() => {
             AsyncStorage.getItem('loginToken')
@@ -154,7 +169,6 @@ class ProfileScreenView extends Component {
   }
 }
 
-//GetCart(this.props.auth.Cart, this.props.create.Market),
 const mapStateToProps = state => {
   return {
     Profile: state.auth.Profile,
@@ -164,5 +178,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {FetchProfile},
+  {FetchProfile, AddPick},
 )(ProfileScreenView);

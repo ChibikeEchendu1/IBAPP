@@ -40,7 +40,9 @@ class MyProspectList extends Component {
           onPress={() => {
             console.log('nave');
 
-            this.props.navigation.navigate('ProspectHome');
+            this.props.navigation.navigate('ProspectHome', {
+              Prospect: this.props.item,
+            });
           }}
           style={{
             display: 'flex',
@@ -55,14 +57,6 @@ class MyProspectList extends Component {
               value={this.props.item.Persentage}
               backgroundColor={Colorlize(this.props.item.Persentage)}
               backgroundColorOnComplete="#6CC644"
-            />
-          </View>
-          <View>
-            <Icon
-              name="chevron-right"
-              size={15}
-              style={{marginRight: 10}}
-              color={VARIABLES.Color}
             />
           </View>
         </TouchableOpacity>

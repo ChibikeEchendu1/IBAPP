@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  Keyboard,
+  TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
 import {Input, Button} from 'react-native-elements';
@@ -82,73 +84,75 @@ class SignOutScreenView extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <View
-          style={{
-            height: '15%',
-            margin: 20,
-            width: '80%',
-            alignSelf: 'center',
-          }}>
-          <Image
-            resizeMode="contain"
-            style={{width: '100%', alignSelf: 'center', height: '100%'}}
-            source={require('../images/OOO.jpg')}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <View
+            style={{
+              height: '15%',
+              margin: 20,
+              width: '80%',
+              alignSelf: 'center',
+            }}>
+            <Image
+              resizeMode="contain"
+              style={{width: '100%', alignSelf: 'center', height: '100%'}}
+              source={require('../images/OOO.jpg')}
+            />
+          </View>
+
+          <Input
+            placeholder="Name"
+            value={this.props.name}
+            onChangeText={this.onNameC.bind(this)}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            inputStyle={{marginLeft: 7}}
+            errorMessage={this.props.NameError}
+            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
           />
-        </View>
 
-        <Input
-          placeholder="Name"
-          value={this.props.name}
-          onChangeText={this.onNameC.bind(this)}
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          inputStyle={{marginLeft: 7}}
-          errorMessage={this.props.NameError}
-          inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-        />
+          <Input
+            placeholder="Email"
+            onChangeText={this.onEmailC.bind(this)}
+            value={this.props.email}
+            inputStyle={{marginLeft: 7}}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
 
-        <Input
-          placeholder="Email"
-          onChangeText={this.onEmailC.bind(this)}
-          value={this.props.email}
-          inputStyle={{marginLeft: 7}}
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
+          <Input
+            value={this.props.password}
+            inputStyle={{marginLeft: 7}}
+            onChangeText={this.onPasswordC.bind(this)}
+            placeholder="Password"
+            secureTextEntry
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            errorMessage={this.props.PasswordError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
 
-        <Input
-          value={this.props.password}
-          inputStyle={{marginLeft: 7}}
-          onChangeText={this.onPasswordC.bind(this)}
-          placeholder="Password"
-          secureTextEntry
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          errorMessage={this.props.PasswordError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
+          {this.renderButton()}
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('AuthScreen')}
+            style={{alignItems: 'center'}}>
+            <Text style={{marginTop: 30}}>
+              Already a member? <Text style={{color: '#FA2700'}}>Login</Text>{' '}
+            </Text>
+          </TouchableOpacity>
 
-        {this.renderButton()}
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('AuthScreen')}
-          style={{alignItems: 'center'}}>
-          <Text style={{marginTop: 30}}>
-            Already a member? <Text style={{color: '#FA2700'}}>Login</Text>{' '}
-          </Text>
-        </TouchableOpacity>
+          <AuthFooter use="SignUp" />
 
-        <AuthFooter use="SignUp" />
-
-        {this.Login()}
-      </SafeAreaView>
+          {this.Login()}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }

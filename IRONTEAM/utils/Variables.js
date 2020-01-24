@@ -5,6 +5,7 @@ export const VARIABLES = {
   blue: '#008AC4',
   ironB: '#435777',
   sparing: '#607E8C',
+  lightGray: '#eeeeee',
   green: '#53C22B',
   IP: 'http://172.20.10.4:5000',
 };

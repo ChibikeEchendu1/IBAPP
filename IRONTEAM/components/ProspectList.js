@@ -33,7 +33,7 @@ class ProspectList extends Component {
         <TouchableOpacity>
           <View>
             <Text>Name: {this.props.item.Name}</Text>
-            <Text>Founder: {this.props.item.Founder}</Text>
+            <Text>Address: {this.props.item.Address}</Text>
           </View>
         </TouchableOpacity>
       </View>

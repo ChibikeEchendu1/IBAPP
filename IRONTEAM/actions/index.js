@@ -3,6 +3,7 @@ const passwordVaild = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
 const IP = 'http://172.20.10.4:5000';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import {Linking, Alert, Platform} from 'react-native';
 
 export const emailChanged = text => {
   return {
@@ -14,6 +15,32 @@ export const emailChanged = text => {
 export const PasswordChanged = text => {
   return {
     type: 'Password_changed',
+    payload: text,
+  };
+};
+
+export const DealChanged = text => {
+  if (text > 10) {
+    return {
+      type: 'Deal_Error',
+      payload: 'No more than 10',
+    };
+  }
+  return {
+    type: 'Deal_changed',
+    payload: text,
+  };
+};
+
+export const anChanged = text => {
+  if (text.length > 10) {
+    return {
+      type: 'AN_Error',
+      payload: 'INVALID ACCOUNT NUMBER',
+    };
+  }
+  return {
+    type: 'AN_changed',
     payload: text,
   };
 };
@@ -89,7 +116,8 @@ export const loginUser = ({email, password}) => {
         dispatch({type: 'Password_Error', payload: res.data.error});
       } else {
         dispatch({type: 'Get_User', payload: res.data});
-        await AsyncStorage.setItem('loginToken', JSON.stringify(res.data));
+        await AsyncStorage.setItem('loginToken', JSON.stringify(res.data._id));
+
         dispatch({type: 'Login_Done', payload: res.data._id});
       }
 
@@ -129,7 +157,8 @@ export const loginUserGoogle = ({namegoogle, emailgoogle}) => {
       dispatch({type: 'Password_Error', payload: res.data.error});
     } else {
       dispatch({type: 'Get_User', payload: res.data});
-      await AsyncStorage.setItem('loginToken', JSON.stringify(res.data));
+      await AsyncStorage.setItem('loginToken', JSON.stringify(res.data._id));
+
       dispatch({type: 'Login_Done', payload: JSON.stringify(res.data._id)});
     }
 
@@ -154,6 +183,55 @@ export const AddProspect = ({email, name, tot, type, value}) => {
     });
 
     console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const AddChamp = ({deal, name, AN, type, value, Bank, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/AddChamp', {
+      deal,
+      name,
+      AN,
+      type,
+      value,
+      Bank,
+      _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const AddContact = ({name, type, value, _id}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/AddContact', {
+      name,
+      type,
+      value,
+      _id,
+    });
 
     if (typeof res.data.error != 'undefined') {
       dispatch({type: 'Password_Error', payload: res.data.error});
@@ -208,7 +286,8 @@ export const SignUpUser = ({name, email, password}) => {
         dispatch({type: 'Name_Error', payload: res.data.error});
       } else {
         dispatch({type: 'Get_User', payload: res.data});
-        await AsyncStorage.setItem('loginToken', JSON.stringify(res.data));
+        await AsyncStorage.setItem('loginToken', JSON.stringify(res.data._id));
+
         dispatch({type: 'Login_Done', payload: res.data._id});
       }
       dispatch({type: 'Spinner', payload: false});
@@ -223,11 +302,78 @@ export const FetchProspects = () => async dispatch => {
   dispatch({type: 'Spinner', payload: false});
 };
 
+export const AddPick = file => async dispatch => {
+  let token = await AsyncStorage.getItem('loginToken');
+  console.log(file, 'file');
+  console.log(file.path, 'uri');
+  console.log(file['mime'], 'mime');
+  console.log(file.filename, 'fname');
+
+  dispatch({type: 'Spinner', payload: true});
+  let data = new FormData();
+  data.append('file', {
+    uri: file['path'],
+    type: file['mime'],
+    name: file['filename'],
+  });
+  data.append('id', JSON.parse(token));
+  const res = await axios.post(IP + '/api/markerter/app/AddPick', data, {
+    headers: {
+      accept: 'application/json',
+      'Accept-Language': 'en-US,en;q=0.8',
+      'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+    },
+  });
+
+  dispatch({type: 'Fetch_Profie', payload: res.data});
+
+  dispatch({type: 'Spinner', payload: false});
+};
+
 export const FetchMyProspects = id => async dispatch => {
   dispatch({type: 'Spinner', payload: true});
   const res = await axios.post(IP + '/api/markerter/app/FetchMyProspects', {
     id,
   });
   dispatch({type: 'Get_Items', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
+};
+
+export const FetchMarketers = id => async dispatch => {
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/FetchMarketers', {
+    id,
+  });
+  dispatch({type: 'Get_Items', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
+};
+
+export const callNumber = phone => async dispatch => {
+  console.log('callNumber ----> ', phone);
+  let phoneNumber = phone;
+  if (Platform.OS !== 'android') {
+    phoneNumber = `telprompt:${phone}`;
+  } else {
+    phoneNumber = `tel:${phone}`;
+  }
+  const supported = Linking.canOpenURL(phoneNumber);
+  try {
+    if (!supported) {
+      Alert.alert('Phone number is not available');
+    } else {
+      return Linking.openURL(phoneNumber);
+    }
+  } catch (err) {
+    console.log(err);
+    // TypeError: failed to fetch
+  }
+};
+
+export const FetchComments = StoreId => async dispatch => {
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/FetchComments', {
+    StoreId,
+  });
+  dispatch({type: 'Fetch_Comments', payload: res.data});
   dispatch({type: 'Spinner', payload: false});
 };

@@ -10,9 +10,13 @@ import {
   StyleSheet,
   Platform,
   TextInput,
+  FlatList,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import AuthFooter from './AuthFooter';
+import MyContactList from './MyContactList';
 
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -26,7 +30,14 @@ import {
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
+import Colorlize from '../utils/Colorlize';
+import ColorlizeObject from '../utils/ColorlizeObject';
 
+import Normalize from '../utils/Normalize';
+
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+
+const barWidth = Dimensions.get('screen').width - 40;
 const placeholder = {
   label: 'Select a Product...',
   value: null,
@@ -40,7 +51,9 @@ class ProspectHomeView extends Component {
       EmailError: '',
       PasswordError: '',
       value: '',
-      Error: '',
+      isLoading: false,
+
+      Prospect: this.props.navigation.state.params.Prospect,
     };
   }
 
@@ -77,168 +90,123 @@ class ProspectHomeView extends Component {
     }
   }
 
-  onButtonPress() {
-    const {email, name, tot, type} = this.props;
-    const {value} = this.state;
-
-    console.log(email, name, tot, type, value, 'vals');
-
-    if (
-      email == '' ||
-      name == '' ||
-      tot == '' ||
-      type == '' ||
-      value == '' ||
-      value == null
-    ) {
-      this.setState({Error: 'Enter All Feilds'});
-    } else {
-      this.setState({Error: ''});
-      this.props.AddProspect({email, name, tot, type, value});
-    }
+  renderRow(item) {
+    return <MyContactList navigation={this.props.navigation} item={item} />;
   }
 
-  renderButton() {
-    if (this.props.Loader) {
-      return (
-        <ActivityIndicator
-          style={{marginTop: 10, alignSelf: 'center'}}
-          color={VARIABLES.Color}
-          size={'large'}
-        />
-      ); //
-    } else {
-      return (
-        <Button
-          onPress={this.onButtonPress.bind(this)}
-          title="Done"
-          type="outline"
-          raised
-          containerStyle={{
-            marginTop: 20,
-            alignSelf: 'flex-end',
-            marginRight: 20,
-            width: '50%',
-          }}
-          titleStyle={{color: 'white', marginRight: 10}}
-          buttonStyle={{
-            backgroundColor: VARIABLES.Color,
-            borderColor: VARIABLES.Color,
-            width: '100%',
-          }}
-          icon={<Icon name="check-circle" size={20} color="white" />}
-          iconRight
-        />
-      );
-    }
+  renderRefreshControl() {
+    this.setState({isLoading: true});
   }
 
   render() {
+    const {
+      Name,
+      Persentage,
+      Contacts,
+      Champion,
+      Deal,
+      Data,
+    } = this.state.Prospect;
+
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <Text style={{fontSize: 30, alignSelf: 'center'}}>New Prospect</Text>
-        <Input
-          placeholder="Name"
-          value={this.props.name}
-          onChangeText={this.onEmailC.bind(this)}
-          inputStyle={{}}
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-        />
-        <Input
-          placeholder="Detailed Address"
-          value={this.props.tot}
-          onChangeText={this.onnameC.bind(this)}
-          inputStyle={{}}
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
-
-        <Input
-          value={this.props.type}
-          inputStyle={{}}
-          onChangeText={this.onTypeC.bind(this)}
-          placeholder="Type"
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.PasswordError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
-
-        <RNPickerSelect
-          onValueChange={value => this.setState({value})}
-          style={pickerSelectStyles}
-          placeholder={placeholder}
-          items={[
-            {label: 'Grade Grubb', value: 'GradeGrubb'},
-            {label: 'CartAList', value: 'CartAList'},
-            {label: 'Building Materials', value: 'BuildingMaterials'},
-          ]}
-        />
-
-        <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
-          I belive this is a good Prospect Because
-        </Text>
-        <TextInput
-          style={{
-            height: '20%',
-            width: '90%',
-            alignSelf: 'center',
-            borderColor: 'gray',
-            borderWidth: 1,
-          }}
-          multiline={true}
-          numberOfLines={20}
-          onChangeText={this.onSummeryC.bind(this)}
-          value={this.props.email}
-        />
-        <Text style={{color: 'red', alignSelf: 'center'}}>
-          {this.state.Error}
-        </Text>
-        {this.renderButton()}
-        {this.added()}
-      </SafeAreaView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView
+          style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginBottom: Normalize(40),
+            }}>
+            <TouchableOpacity>
+              <Icon
+                name="star"
+                size={30}
+                style={{marginRight: 10, marginLeft: 10}}
+                color={ColorlizeObject(Champion)}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Icon
+                name="table"
+                size={30}
+                style={{marginRight: 10, marginLeft: 10}}
+                color={ColorlizeObject(Data)}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Icon
+                name="thumbs-up"
+                size={30}
+                style={{marginRight: 10, marginLeft: 10}}
+                color={ColorlizeObject(Deal)}
+              />
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('ProspectOPtiions', {
+                Prospect: this.state.Prospect,
+              });
+            }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={{
+                width: '90%',
+                marginLeft: 10,
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+              <Text style={{fontSize: 20}}>{Name}</Text>
+              <View>
+                <Icon
+                  name="chevron-right"
+                  size={30}
+                  style={{marginRight: 10, marginLeft: 10}}
+                  color={VARIABLES.Color}
+                />
+              </View>
+            </View>
+            <ProgressBarAnimated
+              width={barWidth}
+              value={Persentage}
+              backgroundColor={Colorlize(Persentage)}
+              height={30}
+              backgroundColorOnComplete="#6CC644"
+            />
+          </TouchableOpacity>
+          <View>
+            <Text style={{fontSize: 20, marginTop: 50, marginLeft: '8%'}}>
+              Contacts
+            </Text>
+            <FlatList
+              style={{height: '52%', marginLeft: '8%'}}
+              data={Contacts.filter(items => {
+                return (
+                  items.Name.toLowerCase().indexOf(
+                    this.props.name.toLowerCase(),
+                  ) !== -1
+                );
+              })}
+              renderItem={({item}) => this.renderRow(item)}
+              keyExtractor={(item, index) => index}
+              onRefresh={() => this.renderRefreshControl()}
+              refreshing={this.props.Loader}
+              initialNumToRender={8}
+            />
+          </View>
+          {this.added()}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }
-
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    width: '90%',
-    borderColor: 'gray',
-    alignSelf: 'center',
-    marginTop: 20,
-    borderRadius: 4,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    width: '90%',
-    marginTop: 20,
-    alignSelf: 'center',
-    borderColor: 'gray',
-    borderRadius: 8,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-});
 
 const mapStateToProps = state => {
   return {

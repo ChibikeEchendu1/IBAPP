@@ -9,6 +9,8 @@ import {
   Dimensions,
   Platform,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
@@ -101,46 +103,47 @@ class SearchprospectViews extends Component {
 
   render() {
     return (
-      <View>
-        <NavigationEvents
-          onDidFocus={() => {
-            this.props.FetchProspects();
-          }}
-        />
-
-        <SafeAreaView style={{backgroundColor: 'white', marginLeft: 20}}>
-          <Text style={{fontSize: 20, marginTop: '8%', marginBottom: '4%'}}>
-            Prospects
-          </Text>
-          <Input
-            placeholder="...Search Name"
-            leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}
-            containerStyle={{width: '80%', marginBottom: 10}}
-            value={this.props.name}
-            onChangeText={this.onNameC.bind(this)}
-            errorStyle={{color: 'red', marginLeft: '5%'}}
-            inputStyle={{marginLeft: 5}}
-            errorMessage={this.props.NameError}
-            inputContainerStyle={{width: '100%'}}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View>
+          <NavigationEvents
+            onDidFocus={() => {
+              this.props.FetchProspects();
+            }}
           />
-          {this.renderList()}
-        </SafeAreaView>
-        <Button
-          onPress={this.onButtonPress.bind(this)}
-          title="Add Prospect"
-          type="outline"
-          raised
-          containerStyle={{marginTop: 30, alignSelf: 'center', width: '50%'}}
-          titleStyle={{color: 'white', marginRight: 10}}
-          buttonStyle={{
-            backgroundColor: VARIABLES.Color,
-            borderColor: VARIABLES.Color,
-            width: '100%',
-          }}
-          icon={<Icon name="plus" size={25} color="white" />}
-          iconRight
-        />
-      </View>
+
+          <SafeAreaView style={{backgroundColor: 'white', marginLeft: 20}}>
+            <Input
+              placeholder="...Search Name"
+              leftIcon={
+                <Icon name="search" size={20} color={VARIABLES.Color} />
+              }
+              containerStyle={{width: '80%', marginBottom: 10}}
+              value={this.props.name}
+              onChangeText={this.onNameC.bind(this)}
+              errorStyle={{color: 'red', marginLeft: '5%'}}
+              inputStyle={{marginLeft: 5}}
+              errorMessage={this.props.NameError}
+              inputContainerStyle={{width: '100%'}}
+            />
+            {this.renderList()}
+          </SafeAreaView>
+          <Button
+            onPress={this.onButtonPress.bind(this)}
+            title="Add Prospect"
+            type="outline"
+            raised
+            containerStyle={{marginTop: 30, alignSelf: 'center', width: '50%'}}
+            titleStyle={{color: 'white', marginRight: 10}}
+            buttonStyle={{
+              backgroundColor: VARIABLES.Color,
+              borderColor: VARIABLES.Color,
+              width: '100%',
+            }}
+            icon={<Icon name="plus" size={25} color="white" />}
+            iconRight
+          />
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

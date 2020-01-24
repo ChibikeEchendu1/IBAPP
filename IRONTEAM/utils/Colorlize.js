@@ -9,9 +9,9 @@ export default level => {
   if (level <= 25) {
     return '#FF0000';
   } else if (level <= 50) {
-    return '#FFCC33';
+    return '#C06010';
   } else if (level <= 75) {
-    return '#CCFF00';
+    return '#028140';
   } else {
     return '#009E9E';
   }

@@ -6,6 +6,8 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Image,
+  Keyboard,
+  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
@@ -75,58 +77,60 @@ class AuthScreenView extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <View
-          style={{
-            height: '20%',
-            width: '80%',
-            marginBottom: 30,
-            alignSelf: 'center',
-          }}>
-          <Image
-            resizeMode="contain"
-            style={{width: '100%', alignSelf: 'center', height: '100%'}}
-            source={require('../images/OOO.jpg')}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <View
+            style={{
+              height: '20%',
+              width: '80%',
+              marginBottom: 30,
+              alignSelf: 'center',
+            }}>
+            <Image
+              resizeMode="contain"
+              style={{width: '100%', alignSelf: 'center', height: '100%'}}
+              source={require('../images/OOO.jpg')}
+            />
+          </View>
+
+          <Input
+            placeholder="Email"
+            value={this.props.email}
+            onChangeText={this.onEmailC.bind(this)}
+            inputStyle={{marginLeft: 7}}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
           />
-        </View>
 
-        <Input
-          placeholder="Email"
-          value={this.props.email}
-          onChangeText={this.onEmailC.bind(this)}
-          inputStyle={{marginLeft: 7}}
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-        />
+          <Input
+            value={this.props.password}
+            inputStyle={{marginLeft: 7}}
+            onChangeText={this.onPasswordC.bind(this)}
+            secureTextEntry
+            placeholder="Password"
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            errorMessage={this.props.PasswordError}
+            inputContainerStyle={{
+              width: '90%',
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+          />
 
-        <Input
-          value={this.props.password}
-          inputStyle={{marginLeft: 7}}
-          onChangeText={this.onPasswordC.bind(this)}
-          secureTextEntry
-          placeholder="Password"
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          errorMessage={this.props.PasswordError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
+          {this.renderButton()}
 
-        {this.renderButton()}
-
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('SignupScreen')}
-          style={{alignItems: 'center'}}>
-          <Text style={{marginTop: 30}}>
-            New User? <Text style={{color: '#FA2700'}}>SignUp</Text>{' '}
-          </Text>
-        </TouchableOpacity>
-        <AuthFooter use="Login" />
-        {this.Login()}
-      </SafeAreaView>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('SignupScreen')}
+            style={{alignItems: 'center'}}>
+            <Text style={{marginTop: 30}}>
+              New User? <Text style={{color: '#FA2700'}}>SignUp</Text>{' '}
+            </Text>
+          </TouchableOpacity>
+          <AuthFooter use="Login" />
+          {this.Login()}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }

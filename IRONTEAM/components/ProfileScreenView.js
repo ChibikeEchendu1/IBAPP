@@ -1,19 +1,20 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
-  View,
-  Text,
   SafeAreaView,
-  Image,
   FlatList,
   Dimensions,
   Platform,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import {Header} from './Header';
 import ProfileSection from './ProfileSection';
+import Header from './Header';
+
 import MyProspectList from './MyProspectList';
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,6 +37,7 @@ class ProfileScreenView extends Component {
       isLoading: false,
     };
   }
+
   componentDidMount() {
     //componentDidMount
     AsyncStorage.getItem('loginToken')
@@ -96,31 +98,33 @@ class ProfileScreenView extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        <NavigationEvents
-          onDidFocus={() => {
-            AsyncStorage.getItem('loginToken').then(value => {
-              this.setState({_id: JSON.parse(value)});
-              this.props.FetchMyProspects(JSON.parse(value));
-              console.log(this.state._id, 'id');
-            });
-          }}
-        />
-        <Header TITLE="Profile" />
-        <ProfileSection />
-        <Input
-          placeholder="...Search Name"
-          leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}
-          containerStyle={{width: '80%', marginTop: 20}}
-          value={this.props.name}
-          onChangeText={this.onNameC.bind(this)}
-          errorStyle={{color: 'red', marginLeft: '5%'}}
-          inputStyle={{marginLeft: 5}}
-          errorMessage={this.props.NameError}
-          inputContainerStyle={{width: '100%'}}
-        />
-        {this.renderList()}
-      </SafeAreaView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <NavigationEvents
+            onDidFocus={() => {
+              AsyncStorage.getItem('loginToken').then(value => {
+                this.setState({_id: JSON.parse(value)});
+                this.props.FetchMyProspects(JSON.parse(value));
+                console.log(this.state._id, 'id');
+              });
+            }}
+          />
+          <Header navigation={this.props.navigation} />
+          <ProfileSection />
+          <Input
+            placeholder="...Search Name"
+            leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}
+            containerStyle={{width: '80%', marginTop: 20}}
+            value={this.props.name}
+            onChangeText={this.onNameC.bind(this)}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            inputStyle={{marginLeft: 5}}
+            errorMessage={this.props.NameError}
+            inputContainerStyle={{width: '100%'}}
+          />
+          {this.renderList()}
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
     );
   }
 }
