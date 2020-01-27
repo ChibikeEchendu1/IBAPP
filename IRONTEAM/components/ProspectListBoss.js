@@ -8,10 +8,15 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
 import {loginUserGoogle} from '../actions';
 import _ from 'lodash';
-
+import {Input, Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {VARIABLES} from '../utils/Variables';
 import Normalize from '../utils/Normalize';
@@ -21,34 +26,25 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 const barWidth = Dimensions.get('screen').width - 40;
 
-class MyProspectListMarketer extends Component {
+class ProspectListBoss extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {namegoogle: '', emailgoogle: '', value: 20};
+    this.state = {namegoogle: '', emailgoogle: ''};
   }
 
   render() {
     return (
-      <View style={{marginTop: 25, flex: 1, marginLeft: 7}}>
+      <View style={{marginTop: 10, flex: 1}}>
         <TouchableOpacity
           onPress={() => {
-            console.log('nave');
-
             this.props.navigation.navigate('ProspectHomeMarketer', {
               Prospect: this.props.item,
             });
-          }}
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
           }}>
-          <View style={{width: '90%'}}>
-            <Text style={{color: this.props.item.Fired ? 'red' : 'bleck'}}>
-              Name: {this.props.item.Name}
-            </Text>
+          <View>
+            <Text>Name: {this.props.item.Name}</Text>
+            <Text>Address: {this.props.item.Address}</Text>
             <ProgressBarAnimated
               width={barWidth}
               value={this.props.item.Persentage}
@@ -87,4 +83,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {loginUserGoogle},
-)(MyProspectListMarketer);
+)(ProspectListBoss);

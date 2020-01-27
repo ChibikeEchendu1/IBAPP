@@ -26,7 +26,7 @@ import {
   TypeChanged,
   emailChanged,
   annothernameChanged,
-  AddProspect,
+  changePassword,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -76,7 +76,6 @@ class PasswordView extends Component {
 
   added() {
     if (this.props.Added) {
-      this.props.navigation.navigate('Searchprospect');
       this.props.navigation.navigate('ProfileScreen');
     }
   }
@@ -87,18 +86,13 @@ class PasswordView extends Component {
 
     console.log(email, name, tot, type, value, 'vals');
 
-    if (
-      email == '' ||
-      name == '' ||
-      tot == '' ||
-      type == '' ||
-      value == '' ||
-      value == null
-    ) {
+    if (email == '' || name == '' || tot == '') {
       this.setState({Error: 'Enter All Feilds'});
+    } else if (email != tot) {
+      this.setState({Error: 'Passwords Dont Match'});
     } else {
       this.setState({Error: ''});
-      this.props.AddProspect({email, name, tot, type, value});
+      this.props.changePassword({email, name, tot});
     }
   }
 
@@ -169,13 +163,12 @@ class PasswordView extends Component {
           />
 
           <Input
-            value={this.props.type}
+            value={this.props.email}
             inputStyle={{}}
             secureTextEntry
-            onChangeText={this.onTypeC.bind(this)}
+            onChangeText={this.onSummeryC.bind(this)}
             placeholder="Confirm"
             errorStyle={{color: 'red'}}
-            keyboardType="number-pad"
             errorMessage={this.props.PasswordError}
             inputContainerStyle={{
               width: '90%',
@@ -186,6 +179,7 @@ class PasswordView extends Component {
 
           <Text style={{color: 'red', alignSelf: 'center'}}>
             {this.state.Error}
+            {this.state.PasswordError}
           </Text>
           {this.renderButton()}
           {this.added()}
@@ -246,6 +240,6 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    AddProspect,
+    changePassword,
   },
 )(PasswordView);

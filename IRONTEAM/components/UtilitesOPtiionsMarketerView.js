@@ -12,6 +12,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  FlatList,
   Dimensions,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
@@ -25,12 +26,7 @@ import {
   TypeChanged,
   emailChanged,
   annothernameChanged,
-  AddProspect,
-  ChangeScore,
-  ChangeMax,
-  Promote,
-  Comment,
-  Fire,
+  QandA,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -39,22 +35,19 @@ import Normalize from '../utils/Normalize';
 
 const barWidth = Dimensions.get('screen').width - 40;
 const placeholder = {
-  label: 'Select a Option...',
+  label: 'Select a Product...',
   value: null,
   color: '#9EA0A4',
 };
-class EditMarketerView extends Component {
+class UtilitesOPtiionsMarketerView extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       EmailError: '',
-      Error: '',
       PasswordError: '',
-      value: null,
+      value: '',
       isLoading: false,
-
-      Prospect: this.props.navigation.state.params.Profile,
     };
   }
 
@@ -99,96 +92,16 @@ class EditMarketerView extends Component {
   }
 
   onButtonPress() {
-    const {email, name, tot, type} = this.props;
+    const {email, name, tot, Type} = this.props;
     const {value} = this.state;
-    const {_id} = this.state.Prospect;
 
-    console.log(email, name, tot, type, value, 'vals');
+    console.log(email, value, name, 'vals');
 
-    if (value == 0) {
-      if (tot == '') {
-        this.setState({Error: 'Enter All Feilds'});
-      } else {
-        this.setState({Error: ''});
-        this.props.ChangeScore({tot, _id});
-      }
-    } else if (value == 2) {
+    if (email == '' || name == '' || value == null || value == '') {
+      this.setState({Error: 'Enter All Feilds'});
+    } else {
       this.setState({Error: ''});
-      this.props.Promote({tot, _id});
-    } else if (value == 3) {
-      if (tot == '') {
-        this.setState({Error: 'Enter All Feilds'});
-      } else {
-        this.setState({Error: ''});
-        this.props.Comment({tot, _id});
-      }
-    } else if (value == 1) {
-      if (tot == '') {
-        this.setState({Error: 'Enter All Feilds'});
-      } else {
-        this.setState({Error: ''});
-        this.props.ChangeMax({tot, _id});
-      }
-    } else if (value == 4) {
-      this.props.Fire({_id});
-    }
-  }
-
-  renderInput() {
-    if (this.state.value == null) {
-      return null;
-    } else if (this.state.value == 0) {
-      return (
-        <Input
-          placeholder="Edit Score"
-          value={this.props.tot}
-          onChangeText={this.onnameC.bind(this)}
-          inputStyle={{}}
-          keyboardType="number-pad"
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '40%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
-      );
-    } else if (this.state.value == 1) {
-      return (
-        <Input
-          placeholder="Change Max"
-          value={this.props.tot}
-          onChangeText={this.onnameC.bind(this)}
-          inputStyle={{}}
-          keyboardType="number-pad"
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '40%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
-      );
-    } else if (this.state.value == 2) {
-      return null;
-    } else if (this.state.value == 3) {
-      return (
-        <Input
-          placeholder="Comment"
-          value={this.props.tot}
-          onChangeText={this.onnameC.bind(this)}
-          inputStyle={{}}
-          errorStyle={{color: 'red'}}
-          errorMessage={this.props.EmailError}
-          inputContainerStyle={{
-            width: '90%',
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-        />
-      );
+      this.props.QandA({email, name, value});
     }
   }
 
@@ -210,7 +123,7 @@ class EditMarketerView extends Component {
           raised
           containerStyle={{
             marginTop: 20,
-            alignSelf: 'center',
+            alignSelf: 'flex-end',
             marginRight: 20,
             width: '50%',
           }}
@@ -228,41 +141,53 @@ class EditMarketerView extends Component {
   }
 
   render() {
-    const {Name, Persentage, MaxNUmber} = this.state.Prospect;
-
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
           style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
-          <View
-            style={{
-              width: '90%',
-              marginLeft: 10,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}>
-            <Text style={{fontSize: Normalize(30)}}>{Name}</Text>
-            <Text style={{fontSize: Normalize(20)}}>Score:{Persentage}%</Text>
-            <Text style={{fontSize: Normalize(20)}}>
-              Current Max:{MaxNUmber}
-            </Text>
-          </View>
           <RNPickerSelect
             onValueChange={value => this.setState({value})}
             style={pickerSelectStyles}
             placeholder={placeholder}
             items={[
-              {label: 'Change Score', value: 0},
-              {label: 'Change Max', value: 1},
-              {label: 'Comment', value: 3},
-              {label: 'Promote', value: 2},
-              {label: 'Fire The Marketer', value: 4},
+              {label: 'Grade Grubb', value: 'GradeGrubb'},
+              {label: 'CartAList', value: 'CartAList'},
+              {label: 'Building Materials', value: 'BuildingMaterials'},
             ]}
           />
-
-          {this.renderInput()}
-          <Text style={{alignSelf: 'center', color: 'red'}}>
+          <Input
+            placeholder="Question"
+            value={this.props.name}
+            onChangeText={this.onEmailC.bind(this)}
+            inputStyle={{marginLeft: 7}}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            errorMessage={this.props.EmailError}
+            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
+          />
+          <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
+            Answer
+          </Text>
+          <TextInput
+            style={{
+              height: '20%',
+              width: '90%',
+              alignSelf: 'center',
+              borderColor: 'gray',
+              borderWidth: 1,
+            }}
+            multiline={true}
+            numberOfLines={20}
+            onChangeText={this.onSummeryC.bind(this)}
+            value={this.props.email}
+          />
+          <Text
+            style={{
+              marginLeft: '5%',
+              marginTop: 10,
+              fontSize: 15,
+              alignSelf: 'center',
+              color: 'red',
+            }}>
             {this.state.Error}
           </Text>
           {this.renderButton()}
@@ -273,6 +198,7 @@ class EditMarketerView extends Component {
     );
   }
 }
+
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: 16,
@@ -283,6 +209,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'gray',
     alignSelf: 'center',
     marginTop: 20,
+    marginBottom: 20,
     borderRadius: 4,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
@@ -294,6 +221,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderWidth: 0.5,
     width: '90%',
     marginTop: 20,
+    marginBottom: 20,
     alignSelf: 'center',
     borderColor: 'gray',
     borderRadius: 8,
@@ -301,6 +229,7 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
+
 const mapStateToProps = state => {
   return {
     name: state.auth.name,
@@ -323,11 +252,6 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    AddProspect,
-    ChangeScore,
-    ChangeMax,
-    Promote,
-    Comment,
-    Fire,
+    QandA,
   },
-)(EditMarketerView);
+)(UtilitesOPtiionsMarketerView);

@@ -1,14 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Dimensions,
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Dimensions, StyleSheet} from 'react-native';
 import {VARIABLES} from '../utils/Variables';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {FetchComments} from '../actions';
@@ -38,22 +30,20 @@ class Comments extends Component {
 
   componentDidMount() {
     //componentDidMount
-    AsyncStorage.getItem('Person')
+    AsyncStorage.getItem('loginToken')
       .then(value => {
         console.log(value, 'id');
 
-        this.setState({_id: value});
-        this.props.FetchComments(value);
+        this.props.FetchComments(JSON.parse(value));
         console.log(this.state._id, 'id');
       })
       .done();
   }
   componentWillFocus() {
     //componentDidMount
-    AsyncStorage.getItem('Person')
+    AsyncStorage.getItem('loginToken')
       .then(value => {
-        this.setState({_id: value});
-        this.props.FetchComments(value);
+        this.props.FetchComments(JSON.parse(value));
         console.log(this.state._id, 'id');
       })
       .done();
@@ -70,20 +60,11 @@ class Comments extends Component {
   render() {
     return (
       <View style={{height: '100%'}}>
-        <RNPickerSelect
-          onValueChange={value => this.setState({value})}
-          style={pickerSelectStyles}
-          placeholder={placeholder}
-          items={[
-            {label: 'Grade Grubb', value: 'GradeGrubb'},
-            {label: 'CartAList', value: 'CartAList'},
-            {label: 'Building Materials', value: 'BuildingMaterials'},
-          ]}
-        />
         <TabViewExample
           Loader={this.props.Loader}
           Items={this.props.Comments.Items}
           Pending={this.props.Comments.Valies}
+          requesr={this.props.Comments.requesr}
           navigation={this.props.navigation}
         />
       </View>

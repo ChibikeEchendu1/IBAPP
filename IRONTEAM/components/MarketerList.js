@@ -51,7 +51,9 @@ class MarketerList extends Component {
             justifyContent: 'space-between',
           }}>
           <View style={{width: '90%'}}>
-            <Text style={{}}>Name: {this.props.item.Name}</Text>
+            <Text style={{color: this.props.item.Fired ? 'red' : 'bleck'}}>
+              Name: {this.props.item.Name}
+            </Text>
             <ProgressBarAnimated
               width={barWidth}
               value={this.props.item.Persentage}

@@ -62,6 +62,12 @@ class ProfileScreenView extends Component {
     return this.state.Profiles.Partner;
   }
 
+  added() {
+    if (this.props.Added) {
+      this.props.navigation.navigate('AuthScreen');
+    }
+  }
+
   renderRefreshControl() {
     this.setState({isLoading: true});
   }
@@ -113,6 +119,7 @@ class ProfileScreenView extends Component {
             Estimate Balance: {this.props.Profile.Balance}
           </Text>
         </View>
+        {this.added()}
 
         <TouchableOpacity
           onPress={() => {
@@ -173,6 +180,7 @@ const mapStateToProps = state => {
   return {
     Profile: state.auth.Profile,
     Loader: state.auth.Loader,
+    Added: state.auth.Added,
   };
 };
 

@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   Comments: {
     Items: [],
     Valies: [],
+    requesr: [],
   },
 };
 

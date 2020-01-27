@@ -51,7 +51,7 @@ class MyProspectList extends Component {
             justifyContent: 'space-between',
           }}>
           <View style={{width: '90%'}}>
-            <Text style={{}}>Name: {this.props.item.Name}</Text>
+            <Text>Name: {this.props.item.Name}</Text>
             <ProgressBarAnimated
               width={barWidth}
               value={this.props.item.Persentage}

@@ -1,5 +1,6 @@
 const emailvalid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const passwordVaild = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
 const IP = 'http://172.20.10.4:5000';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
@@ -78,8 +79,12 @@ export const FetchProfile = StoreId => async dispatch => {
   const res = await axios.post(IP + '/api/markerter/app/FetchProfile', {
     StoreId,
   });
-  dispatch({type: 'Fetch_Profie', payload: res.data});
-  dispatch({type: 'Spinner', payload: false});
+  if (res.data.Fired) {
+    dispatch({type: 'Added', payload: true});
+  } else {
+    dispatch({type: 'Fetch_Profie', payload: res.data});
+    dispatch({type: 'Spinner', payload: false});
+  }
 };
 
 export const loginUser = ({email, password}) => {
@@ -138,6 +143,24 @@ export const logincheck = () => async dispatch => {
       dispatch({type: 'Login_NO', payload: null});
     }, 3000);
   }
+};
+
+export const SignOut = () => async dispatch => {
+  await AsyncStorage.removeItem('loginToken');
+  dispatch({type: 'Added', payload: true});
+};
+
+export const Delete = () => async dispatch => {
+  let token = await AsyncStorage.getItem('loginToken');
+
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/Delete', {
+    token: JSON.parse(token),
+  });
+  await AsyncStorage.removeItem('loginToken');
+
+  dispatch({type: 'Added', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
 };
 
 export const loginUserGoogle = ({namegoogle, emailgoogle}) => {
@@ -289,6 +312,72 @@ export const Comment = ({tot, _id}) => {
   };
 };
 
+export const QandA = ({email, name, value}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/QandA', {
+      email,
+      name,
+      value,
+      token: JSON.parse(token),
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const AddRequest = ({type, email, value, item}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/AddRequest', {
+      type,
+      email,
+      value,
+      item,
+      token: JSON.parse(token),
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const Fire = ({_id}) => async dispatch => {
+  let token = _id;
+
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/Delete', {
+    token,
+  });
+  //await AsyncStorage.removeItem('loginToken');
+
+  dispatch({type: 'Added', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
+};
+
 export const ChangeMax = ({tot, _id}) => {
   console.log('we here');
 
@@ -324,6 +413,34 @@ export const AddChamp = ({deal, name, AN, type, value, Bank, _id}) => {
       value,
       Bank,
       _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const changePassword = ({email, name, tot}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Password_Error', payload: ''});
+
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/changePassword', {
+      email,
+      name,
+      tot,
+      token: JSON.parse(token),
     });
 
     console.log(res, 'person');

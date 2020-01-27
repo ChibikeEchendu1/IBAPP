@@ -26,7 +26,8 @@ import {
   TypeChanged,
   emailChanged,
   annothernameChanged,
-  AddProspect,
+  SignOut,
+  Delete,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -79,8 +80,9 @@ class SettingsView extends Component {
 
   added() {
     if (this.props.Added) {
-      this.props.navigation.navigate('Searchprospect');
       this.props.navigation.navigate('ProfileScreen');
+
+      this.props.navigation.navigate('AuthScreen');
     }
   }
 
@@ -90,6 +92,63 @@ class SettingsView extends Component {
 
   renderRefreshControl() {
     this.setState({isLoading: true});
+  }
+
+  renderDelete() {
+    if (this.props.Loader) {
+      return (
+        <ActivityIndicator
+          style={{marginTop: 10, alignSelf: 'center'}}
+          color={VARIABLES.Color}
+          size={'large'}
+        />
+      ); //
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            this.props.Delete();
+          }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: VARIABLES.lightGray,
+            paddingBottom: 15,
+            paddingTop: 15,
+            marginTop: 10,
+          }}>
+          <View
+            style={{
+              width: '90%',
+              marginLeft: 10,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View style={{borderRightWidth: 1, padding: 6}}>
+              <Icon
+                name="trash"
+                size={Normalize(15)}
+                style={{marginRight: 10}}
+                color={VARIABLES.Color}
+              />
+            </View>
+
+            <Text style={{fontSize: Normalize(20)}}>{'Delete Account'}</Text>
+            <View>
+              <Icon
+                name="chevron-right"
+                size={Normalize(15)}
+                style={{marginRight: 10}}
+                color={VARIABLES.Color}
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    }
   }
 
   render() {
@@ -182,7 +241,7 @@ class SettingsView extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate('Deal', {});
+              this.props.SignOut();
             }}
             style={{
               display: 'flex',
@@ -222,48 +281,7 @@ class SettingsView extends Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('ProspectOPtiions', {});
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="trash"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-
-              <Text style={{fontSize: Normalize(20)}}>{'Delete Account'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
+          {this.renderDelete()}
           {this.added()}
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -293,6 +311,7 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    AddProspect,
+    SignOut,
+    Delete,
   },
 )(SettingsView);

@@ -1,8 +1,10 @@
-/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
+  View,
+  Text,
   SafeAreaView,
+  Image,
   FlatList,
   Dimensions,
   Platform,
@@ -12,21 +14,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import ProfileSection from './ProfileSection';
-import Header from './Header';
-
-import MyProspectList from './MyProspectList';
+import ProspectListBoss from './ProspectListBoss';
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {NameChanged, FetchMyProspects} from '../actions';
+import {FetchProspects, NameChanged, Delivered} from '../actions';
 import {connect} from 'react-redux';
 import Normalize from '../utils/Normalize';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationEvents} from 'react-navigation';
+import {Footer} from './Footer';
 
 const SCREENWIDTH = Dimensions.get('window').width;
 
-class ProfileScreenView extends Component {
+class SearchprospectBossViews extends Component {
   constructor(props) {
     super(props);
 
@@ -38,26 +38,27 @@ class ProfileScreenView extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     //componentDidMount
-    AsyncStorage.getItem('loginToken')
-      .then(value => {
-        this.setState({_id: JSON.parse(value)});
-        this.props.FetchMyProspects(JSON.parse(value));
-        console.log(this.state._id, 'id');
-      })
-      .done();
+    this.props.FetchProspects();
   }
+
+  componentDidFocus() {
+    console.log('lol');
+
+    this.props.FetchProspects();
+  }
+
+  onNameC(text) {
+    this.props.NameChanged(text);
+  }
+
   getProfiles() {
     return this.state.Profiles.Partner;
   }
 
   renderRefreshControl() {
     this.setState({isLoading: true});
-  }
-
-  onNameC(text) {
-    this.props.NameChanged(text);
   }
   renderList() {
     if (this.props.Loader) {
@@ -93,37 +94,40 @@ class ProfileScreenView extends Component {
   }
 
   renderRow(item) {
-    return <MyProspectList navigation={this.props.navigation} item={item} />;
+    return <ProspectListBoss navigation={this.props.navigation} item={item} />;
+  }
+
+  onButtonPress() {
+    this.props.navigation.navigate('AddProspect');
   }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+        <View>
           <NavigationEvents
             onDidFocus={() => {
-              AsyncStorage.getItem('loginToken').then(value => {
-                this.setState({_id: JSON.parse(value)});
-                this.props.FetchMyProspects(JSON.parse(value));
-                console.log(this.state._id, 'id');
-              });
+              this.props.FetchProspects();
             }}
           />
-          <Header navigation={this.props.navigation} />
-          <ProfileSection navigation={this.props.navigation} />
-          <Input
-            placeholder="...Search Name"
-            leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}
-            containerStyle={{width: '80%', marginTop: 20}}
-            value={this.props.name}
-            onChangeText={this.onNameC.bind(this)}
-            errorStyle={{color: 'red', marginLeft: '5%'}}
-            inputStyle={{marginLeft: 5}}
-            errorMessage={this.props.NameError}
-            inputContainerStyle={{width: '100%'}}
-          />
-          {this.renderList()}
-        </SafeAreaView>
+
+          <SafeAreaView style={{backgroundColor: 'white', marginLeft: 20}}>
+            <Input
+              placeholder="...Search Name"
+              leftIcon={
+                <Icon name="search" size={20} color={VARIABLES.Color} />
+              }
+              containerStyle={{width: '80%', marginBottom: 10}}
+              value={this.props.name}
+              onChangeText={this.onNameC.bind(this)}
+              errorStyle={{color: 'red', marginLeft: '5%'}}
+              inputStyle={{marginLeft: 5}}
+              errorMessage={this.props.NameError}
+              inputContainerStyle={{width: '100%'}}
+            />
+            {this.renderList()}
+          </SafeAreaView>
+        </View>
       </TouchableWithoutFeedback>
     );
   }
@@ -132,7 +136,7 @@ class ProfileScreenView extends Component {
 //GetCart(this.props.auth.Cart, this.props.create.Market),
 const mapStateToProps = state => {
   return {
-    items: state.auth.items,
+    items: state.auth.Companies,
     Loader: state.auth.Loader,
     name: state.auth.name,
   };
@@ -140,5 +144,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {NameChanged, FetchMyProspects},
-)(ProfileScreenView);
+  {FetchProspects, NameChanged, Delivered},
+)(SearchprospectBossViews);

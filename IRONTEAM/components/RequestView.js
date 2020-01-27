@@ -23,7 +23,7 @@ import {
   emailChanged,
   annothernameChanged,
   AddProspect,
-  AddContact,
+  AddRequest,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -46,6 +46,7 @@ class RequestView extends Component {
     this.state = {
       EmailError: '',
       value: '',
+      item: '',
       Error: '',
     };
   }
@@ -78,18 +79,26 @@ class RequestView extends Component {
 
   added() {
     if (this.props.Added) {
+      this.props.navigation.navigate('UtilitesOPtiions');
       this.props.navigation.navigate('ProfileScreen');
     }
   }
 
   onButtonPress() {
     const {email, name, type} = this.props;
-    const {value} = this.state;
-    if (name == '' || type == '' || value == '' || value == null) {
+    const {value, item} = this.state;
+    if (
+      type == '' ||
+      email == '' ||
+      value == '' ||
+      value == null ||
+      item == '' ||
+      item == null
+    ) {
       this.setState({Error: 'Enter All Feilds'});
     } else {
       this.setState({Error: ''});
-      this.props.AddContact({name, type, value});
+      this.props.AddRequest({type, email, value, item});
     }
   }
 
@@ -138,9 +147,9 @@ class RequestView extends Component {
             style={pickerSelectStyles}
             placeholder={placeholder2}
             items={[
-              {label: 'Grade Grubb', value: 0},
-              {label: 'CartAList', value: 1},
-              {label: 'Building Materials', value: 2},
+              {label: 'Grade Grubb', value: 'GradeGrubb'},
+              {label: 'CartAList', value: 'CartAList'},
+              {label: 'Building Materials', value: 'BuildingMaterials'},
             ]}
           />
           <Text style={{fontSize: 30, alignSelf: 'center', marginTop: 40}}>
@@ -163,7 +172,7 @@ class RequestView extends Component {
           />
 
           <RNPickerSelect
-            onValueChange={value => this.setState({value})}
+            onValueChange={value => this.setState({item: value})}
             style={pickerSelectStyles}
             placeholder={placeholder}
             items={[
@@ -257,6 +266,6 @@ export default connect(
     emailChanged,
     annothernameChanged,
     AddProspect,
-    AddContact,
+    AddRequest,
   },
 )(RequestView);

@@ -32,6 +32,18 @@ const TabViewExample = props => {
     />
   );
 
+  const ThirddRoute = () => (
+    <FlatList
+      style={{height: '62%'}}
+      data={props.requesr}
+      renderItem={({item}) => renderRow2(item)}
+      keyExtractor={(item, index) => index}
+      onRefresh={() => renderRefreshControl()}
+      refreshing={props.Loader}
+      initialNumToRender={8}
+    />
+  );
+
   const SecondRoute = () => (
     <FlatList
       style={{maxHeight: '62%'}}
@@ -47,7 +59,7 @@ const TabViewExample = props => {
   const renderRefreshControl = () => {
     console.log('lol');
   };
-
+  ///QANDA
   const renderRowPending = item => {
     return (
       <TouchableOpacity
@@ -72,24 +84,38 @@ const TabViewExample = props => {
             marginTop: 30,
           }}>
           <View>
-            <Image
-              resizeMode="stretch"
-              style={{
-                width: Normalize(100),
-                height: Normalize(100),
-              }}
-              source={{
-                uri: VARIABLES.IP + '/' + item.ImagePath[0],
-              }}
-            />
             <Text
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
+                width: '90%',
+
                 fontSize: Normalize(15),
               }}>
-              {' '}
-              {item.Name}{' '}
+              {'Question: '}
+              {item.Question}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Comment: '}
+              {item.Comment}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Date '}
+              {item.Date}{' '}
             </Text>
           </View>
           <Icon
@@ -103,6 +129,99 @@ const TabViewExample = props => {
     );
   };
 
+  ///Request
+  const renderRow2 = item => {
+    return (
+      <TouchableOpacity
+        onPress={async () => {
+          props.navigation.navigate({
+            routeName: 'StoreItem',
+            params: {
+              item: item,
+              Waiting: 0,
+            },
+          });
+        }}
+        style={{width: SCREENWIDTH}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: SCREENWIDTH,
+            justifyContent: 'space-between',
+            marginLeft: 20,
+            marginTop: 30,
+          }}>
+          <View style={{width: '90%'}}>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'I need '}
+              {item.Item}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {' '}
+              {item.Report}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Quantity: '}
+              {item.Quantity}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Date: '}
+              {item.Date}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {' '}
+              {item.Type}{' '}
+            </Text>
+          </View>
+          <Icon
+            style={{marginRight: '20%'}}
+            name="caret-right"
+            size={30}
+            color={VARIABLES.Color}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  ///Comment
   const renderRow = item => {
     return (
       <TouchableOpacity
@@ -126,24 +245,26 @@ const TabViewExample = props => {
             marginTop: 30,
           }}>
           <View>
-            <Image
-              resizeMode="stretch"
+            <Text
               style={{
-                width: Normalize(100),
-                height: Normalize(100),
-              }}
-              source={{
-                uri: VARIABLES.IP + '/' + item.ImagePath[0],
-              }}
-            />
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Comment '}
+              {item.Comment}{' '}
+            </Text>
             <Text
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
                 fontSize: Normalize(15),
+                width: '90%',
               }}>
-              {' '}
-              {item.Name}{' '}
+              {'Date '}
+              {item.Date}{' '}
             </Text>
           </View>
           <Icon
@@ -161,11 +282,13 @@ const TabViewExample = props => {
   const [routes] = React.useState([
     {key: 'first', title: 'Comments'},
     {key: 'second', title: 'Q&A'},
+    {key: 'third', title: 'Request'},
   ]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
+    third: ThirddRoute,
   });
 
   return (

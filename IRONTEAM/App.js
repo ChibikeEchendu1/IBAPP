@@ -23,6 +23,8 @@ import {createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Variables, {VARIABLES} from './utils/Variables';
 import Searchprospect from './screens/Searchprospect';
+import SearchprospectBoss from './screens/SearchprospectBoss';
+
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -36,6 +38,7 @@ import Meeting from './screens/Meeting';
 import Deal from './screens/Deal';
 import AddChampion from './screens/AddChampion';
 import UtilitesOPtiions from './screens/UtilitesOPtiions';
+import UtilitesOPtiionsMarketer from './screens/UtilitesOPtiionsMarketer';
 import Calculator from './screens/Calculator';
 import Request from './screens/Request';
 import Statistics from './screens/Statistics';
@@ -494,7 +497,7 @@ const TabNavigator = createBottomTabNavigator({
                 gesturesEnabled: false,
 
                 headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>CHAMPION</Text>
+                  <Text style={{color: VARIABLES.Color}}> COMMENTS</Text>
                 ),
               }),
             },
@@ -531,61 +534,14 @@ const TabNavigator = createBottomTabNavigator({
   Boss: {
     screen: createBottomTabNavigator(
       {
-        Utilities: {
+        'Q&A': {
           screen: createStackNavigator({
-            UtilitesOPtiions: {
-              screen: UtilitesOPtiions,
+            UtilitesOPtiionsMarketer: {
+              screen: UtilitesOPtiionsMarketer,
 
               navigationOptions: ({navigate, navigation}) => ({
                 headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>UTILITIES</Text>
-                ),
-              }),
-            },
-            Calculator: {
-              screen: Calculator,
-
-              navigationOptions: ({navigate, navigation, goBack}) => ({
-                gesturesEnabled: false,
-
-                headerLeft: () => (
-                  <TouchableOpacity
-                    style={{marginLeft: 20}}
-                    onPress={() => {
-                      navigation.goBack();
-                    }}>
-                    <Icon
-                      color={VARIABLES.Color}
-                      size={25}
-                      name={'chevron-left'}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>CALCULATOR</Text>
-                ),
-              }),
-            },
-            Request: {
-              screen: Request,
-              navigationOptions: ({navigate, navigation, goBack}) => ({
-                gesturesEnabled: false,
-
-                headerLeft: () => (
-                  <TouchableOpacity
-                    style={{marginLeft: 20}}
-                    onPress={() => {
-                      navigation.goBack();
-                    }}>
-                    <Icon
-                      color={VARIABLES.Color}
-                      size={25}
-                      name={'chevron-left'}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>REQUEST</Text>
+                  <Text style={{color: VARIABLES.Color}}>Q&A</Text>
                 ),
               }),
             },
@@ -756,8 +712,8 @@ const TabNavigator = createBottomTabNavigator({
         },
         prospect: {
           screen: createStackNavigator({
-            Searchprospect: {
-              screen: Searchprospect,
+            SearchprospectBoss: {
+              screen: SearchprospectBoss,
               navigationOptions: ({navigate, navigation, goBack}) => ({
                 gesturesEnabled: false,
 
@@ -766,8 +722,8 @@ const TabNavigator = createBottomTabNavigator({
                 ),
               }),
             },
-            AddProspect: {
-              screen: AddProspect,
+            ProspectHomeMarketer: {
+              screen: ProspectHomeMarketer,
               navigationOptions: ({navigate, navigation, goBack}) => ({
                 gesturesEnabled: false,
 
@@ -785,7 +741,30 @@ const TabNavigator = createBottomTabNavigator({
                   </TouchableOpacity>
                 ),
                 headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>NEW PROSPECT</Text>
+                  <Text style={{color: VARIABLES.Color}}>PROSPECT</Text>
+                ),
+              }),
+            },
+            ProspectOPtiionsMarketers: {
+              screen: ProspectOPtiionsMarketers,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>PROSPECT</Text>
                 ),
               }),
             },
