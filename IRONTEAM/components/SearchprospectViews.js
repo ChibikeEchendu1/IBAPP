@@ -77,7 +77,7 @@ class SearchprospectViews extends Component {
     }
     return (
       <FlatList
-        style={{height: '72%'}}
+        style={{height: '80%'}}
         data={this.props.items.filter(items => {
           return (
             items.Name.toLowerCase().indexOf(this.props.name.toLowerCase()) !==
@@ -132,7 +132,10 @@ class SearchprospectViews extends Component {
             title="Add Prospect"
             type="outline"
             raised
-            containerStyle={{marginTop: 30, alignSelf: 'center', width: '50%'}}
+            containerStyle={{
+              alignSelf: 'center',
+              width: '50%',
+            }}
             titleStyle={{color: 'white', marginRight: 10}}
             buttonStyle={{
               backgroundColor: VARIABLES.Color,

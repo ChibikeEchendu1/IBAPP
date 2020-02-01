@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   Image,
+  AsyncStorage,
   TouchableOpacity,
   StyleSheet,
   Platform,
@@ -27,11 +28,13 @@ import {
   emailChanged,
   annothernameChanged,
   AddProspect,
+  GetStats,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import Colorlize from '../utils/Colorlize';
 import Normalize from '../utils/Normalize';
+import {NavigationEvents} from 'react-navigation';
 
 const barWidth = Dimensions.get('screen').width - 40;
 const placeholder = {
@@ -50,6 +53,18 @@ class StatisticsView extends Component {
       value: '',
       isLoading: false,
     };
+  }
+
+  componentDidMount() {
+    //componentDidMount
+    AsyncStorage.getItem('loginToken')
+      .then(value => {
+        console.log(value, 'id');
+
+        this.props.GetStats(JSON.parse(value));
+        console.log(this.state._id, 'id');
+      })
+      .done();
   }
 
   onEmailC(text) {
@@ -93,20 +108,46 @@ class StatisticsView extends Component {
     this.setState({isLoading: true});
   }
 
+  renderList() {
+    if (this.props.Loader) {
+      return (
+        <ActivityIndicator
+          style={{marginTop: 10, alignSelf: 'center'}}
+          color={VARIABLES.Color}
+          size={'large'}
+        />
+      ); //
+    }
+    return (
+      <FlatList
+        style={{alignSelf: 'center'}}
+        data={this.state.Stats}
+        renderItem={({item}) => this.renderRow(item)}
+        keyExtractor={(item, index) => index}
+        onRefresh={() => this.renderRefreshControl()}
+        refreshing={this.props.Loader}
+        initialNumToRender={8}
+      />
+    );
+  }
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
           style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
-          <FlatList
-            style={{alignSelf: 'center'}}
-            data={this.state.Stats}
-            renderItem={({item}) => this.renderRow(item)}
-            keyExtractor={(item, index) => index}
-            onRefresh={() => this.renderRefreshControl()}
-            refreshing={this.props.Loader}
-            initialNumToRender={8}
+          <NavigationEvents
+            onDidFocus={() => {
+              AsyncStorage.getItem('loginToken')
+                .then(value => {
+                  this.setState({_id: JSON.parse(value)});
+                  this.props.GetStats(JSON.parse(value));
+                  console.log(this.state._id, 'id');
+                })
+                .done();
+            }}
           />
+          {this.renderList()}
         </SafeAreaView>
       </TouchableWithoutFeedback>
     );
@@ -136,5 +177,6 @@ export default connect(
     emailChanged,
     annothernameChanged,
     AddProspect,
+    GetStats,
   },
 )(StatisticsView);

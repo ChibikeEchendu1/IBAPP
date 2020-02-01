@@ -77,7 +77,7 @@ class SearchprospectBossViews extends Component {
     }
     return (
       <FlatList
-        style={{height: '72%'}}
+        style={{height: '72%', borderWidth: 1}}
         data={this.props.items.filter(items => {
           return (
             items.Name.toLowerCase().indexOf(this.props.name.toLowerCase()) !==

@@ -41,8 +41,11 @@ import UtilitesOPtiions from './screens/UtilitesOPtiions';
 import UtilitesOPtiionsMarketer from './screens/UtilitesOPtiionsMarketer';
 import Calculator from './screens/Calculator';
 import Request from './screens/Request';
+import Bug from './screens/Bug';
 import Statistics from './screens/Statistics';
 import CommentsScreen from './screens/CommentsScreen';
+import CommentsScreenBoss from './screens/CommentsScreenBoss';
+
 import {connect} from 'react-redux';
 import Settings from './screens/Settings';
 import Payment from './screens/Payment';
@@ -141,6 +144,29 @@ const TabNavigator = createBottomTabNavigator({
                 ),
                 headerTitle: () => (
                   <Text style={{color: VARIABLES.Color}}>REQUEST</Text>
+                ),
+              }),
+            },
+            Bug: {
+              screen: Bug,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>BUG</Text>
                 ),
               }),
             },
@@ -497,7 +523,7 @@ const TabNavigator = createBottomTabNavigator({
                 gesturesEnabled: false,
 
                 headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}> COMMENTS</Text>
+                  <Text style={{color: VARIABLES.Color}}>COMMENTS</Text>
                 ),
               }),
             },
@@ -780,13 +806,13 @@ const TabNavigator = createBottomTabNavigator({
 
         Comments: {
           screen: createStackNavigator({
-            CommentsScreen: {
-              screen: CommentsScreen,
+            CommentsScreenBoss: {
+              screen: CommentsScreenBoss,
               navigationOptions: ({navigate, navigation, goBack}) => ({
                 gesturesEnabled: false,
 
                 headerTitle: () => (
-                  <Text style={{color: VARIABLES.Color}}>CHAMPION</Text>
+                  <Text style={{color: VARIABLES.Color}}>COMMENTS</Text>
                 ),
               }),
             },

@@ -23,7 +23,7 @@ import {
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
-
+import Normalize from '../utils/Normalize';
 const placeholder = {
   label: 'Select Product...',
   value: null,
@@ -79,6 +79,13 @@ class DealView extends Component {
     const {email, name, type, tot} = this.props;
     const {value, Prospect} = this.state;
     const _id = this.state.Prospect._id;
+    const level = this.state.Prospect.level;
+
+    const First =
+      level == 0
+        ? this.state.Prospect.share.First
+        : this.state.Prospect.share.Subseqent;
+
     if (value == 1) {
       const Type = 'Grade Grubb';
       if (name == '' || type == '' || tot == '') {
@@ -87,7 +94,7 @@ class DealView extends Component {
         this.setState({Error: ''});
         console.log(name, type, tot, 'vals');
 
-        this.props.Deal({name, type, tot, Type, _id});
+        this.props.Deal({name, type, tot, Type, _id, First});
       }
     } else if (value == 0) {
       const Type = 'CartAList';
@@ -97,7 +104,7 @@ class DealView extends Component {
         this.setState({Error: ''});
         console.log(name, type, tot, 'vals');
 
-        this.props.Deal({name, type, tot, Type, _id});
+        this.props.Deal({name, type, tot, Type, _id, First});
       }
     } else if (value == 2) {
       const Type = 'Building Materials';
@@ -107,7 +114,7 @@ class DealView extends Component {
         this.setState({Error: ''});
         console.log(name, type, tot, 'vals');
 
-        this.props.Deal({name, type, tot, Type, _id});
+        this.props.Deal({name, type, tot, Type, _id, First});
       }
     }
   }
@@ -126,18 +133,18 @@ class DealView extends Component {
             inputContainerStyle={{
               width: '90%',
               alignSelf: 'center',
-              marginTop: 30,
+              marginTop: Normalize(30),
             }}
           />
 
           <View
             style={{
               alignSelf: 'center',
-              marginTop: 30,
+              marginTop: Normalize(30),
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 20}}>My Pay</Text>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: Normalize(20)}}>My Pay</Text>
+            <Text style={{fontSize: Normalize(20)}}>
               {this.state.Prospect.share.First}
             </Text>
           </View>
@@ -166,7 +173,7 @@ class DealView extends Component {
             inputContainerStyle={{
               width: '90%',
               alignSelf: 'center',
-              marginTop: 30,
+              marginTop: Normalize(30),
             }}
           />
           <Input
@@ -179,32 +186,38 @@ class DealView extends Component {
             inputContainerStyle={{
               width: '90%',
               alignSelf: 'center',
-              marginTop: 30,
+              marginTop: Normalize(30),
             }}
           />
           <View
             style={{
               alignSelf: 'center',
-              marginTop: 30,
+              marginTop: Normalize(30),
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 20}}>Total/Term</Text>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: Normalize(20)}}>Total/Term</Text>
+            <Text style={{fontSize: Normalize(20)}}>
               {this.props.name * this.props.type}
             </Text>
-            <Text style={{fontSize: 20, marginTop: 20}}>My First Cut</Text>
-            <Text style={{fontSize: 20}}>
-              {this.props.name *
-                this.props.type *
-                (this.state.Prospect.share.First / 100)}
+            <Text style={{fontSize: Normalize(20), marginTop: Normalize(20)}}>
+              My First Cut
             </Text>
-            <Text style={{fontSize: 20, marginTop: 20}}>
+            <Text style={{fontSize: Normalize(20)}}>
+              {(
+                this.props.name *
+                this.props.type *
+                (this.state.Prospect.share.First / 100)
+              ).toFixed(2)}
+            </Text>
+            <Text style={{fontSize: Normalize(20), marginTop: Normalize(20)}}>
               Subequent Cut(2 Years)
             </Text>
-            <Text style={{fontSize: 20}}>
-              {this.props.name *
+            <Text style={{fontSize: Normalize(20)}}>
+              {(
+                this.props.name *
                 this.props.type *
-                (this.state.Prospect.share.Subseqent / 100)}
+                (this.state.Prospect.share.Subseqent / 100)
+              ).toFixed(2)}
             </Text>
           </View>
         </View>
@@ -232,8 +245,8 @@ class DealView extends Component {
               marginTop: 30,
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 20}}>My Pay</Text>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: Normalize(20)}}>My Pay</Text>
+            <Text style={{fontSize: Normalize(20)}}>
               {this.state.Prospect.share.First}
             </Text>
           </View>
@@ -259,7 +272,7 @@ class DealView extends Component {
           type="outline"
           raised
           containerStyle={{
-            marginTop: 20,
+            marginTop: Normalize(20),
             alignSelf: 'flex-end',
             marginRight: 20,
             width: '50%',
@@ -270,7 +283,7 @@ class DealView extends Component {
             borderColor: VARIABLES.Color,
             width: '100%',
           }}
-          icon={<Icon name="thumbs-up" size={20} color="white" />}
+          icon={<Icon name="thumbs-up" size={Normalize(20)} color="white" />}
           iconRight
         />
       );
@@ -292,9 +305,6 @@ class DealView extends Component {
               {label: 'Building Materials', value: 2},
             ]}
           />
-          <Text style={{fontSize: 30, alignSelf: 'center', marginTop: 20}}>
-            Deal
-          </Text>
           {this.renderDeal()}
           {this.renderButton()}
           {this.added()}

@@ -228,7 +228,14 @@ class EditMarketerView extends Component {
   }
 
   render() {
-    const {Name, Persentage, MaxNUmber} = this.state.Prospect;
+    const {
+      Name,
+      Persentage,
+      MaxNUmber,
+      DonePorspects,
+      CurrentPorspects,
+      DeletedTimes,
+    } = this.state.Prospect;
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -246,6 +253,15 @@ class EditMarketerView extends Component {
             <Text style={{fontSize: Normalize(20)}}>Score:{Persentage}%</Text>
             <Text style={{fontSize: Normalize(20)}}>
               Current Max:{MaxNUmber}
+            </Text>
+            <Text style={{fontSize: Normalize(20)}}>
+              Done Deals:{DonePorspects}
+            </Text>
+            <Text style={{fontSize: Normalize(20)}}>
+              Working On:{CurrentPorspects}
+            </Text>
+            <Text style={{fontSize: Normalize(20)}}>
+              Deleted:{DeletedTimes}
             </Text>
           </View>
           <RNPickerSelect

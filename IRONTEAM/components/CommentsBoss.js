@@ -3,10 +3,10 @@ import React, {Component} from 'react';
 import {View, Dimensions, StyleSheet} from 'react-native';
 import {VARIABLES} from '../utils/Variables';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {FetchComments, NameChanged} from '../actions';
+import {FetchCommentsBOSS, NameChanged} from '../actions';
+import {connect} from 'react-redux';
 import {Input, Button} from 'react-native-elements';
 
-import {connect} from 'react-redux';
 import Normalize from '../utils/Normalize';
 import AsyncStorage from '@react-native-community/async-storage';
 import {TabViewExample} from './TabWork';
@@ -36,7 +36,7 @@ class Comments extends Component {
       .then(value => {
         console.log(value, 'id');
 
-        this.props.FetchComments(JSON.parse(value));
+        this.props.FetchCommentsBOSS(JSON.parse(value));
         console.log(this.state._id, 'id');
       })
       .done();
@@ -45,7 +45,7 @@ class Comments extends Component {
     //componentDidMount
     AsyncStorage.getItem('loginToken')
       .then(value => {
-        this.props.FetchComments(JSON.parse(value));
+        this.props.FetchCommentsBOSS(JSON.parse(value));
         console.log(this.state._id, 'id');
       })
       .done();
@@ -155,5 +155,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {FetchComments, NameChanged},
+  {FetchCommentsBOSS, NameChanged},
 )(Comments);

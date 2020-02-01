@@ -365,6 +365,32 @@ export const AddRequest = ({type, email, value, item}) => {
   };
 };
 
+export const Bug = ({email, value, item}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/Bug', {
+      email,
+      value,
+      item,
+      token: JSON.parse(token),
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
 export const Fire = ({_id}) => async dispatch => {
   let token = _id;
 
@@ -455,10 +481,12 @@ export const changePassword = ({email, name, tot}) => {
   };
 };
 
-export const Deal = ({name, type, tot, Type, _id}) => {
+export const Deal = ({name, type, tot, Type, _id, First}) => {
   console.log('we here');
 
   return async dispatch => {
+    let token = await AsyncStorage.getItem('loginToken');
+
     dispatch({type: 'Spinner', payload: true});
     const res = await axios.post(IP + '/api/markerter/app/Deal', {
       name,
@@ -466,6 +494,8 @@ export const Deal = ({name, type, tot, Type, _id}) => {
       tot,
       Type,
       _id,
+      First,
+      token: JSON.parse(token),
     });
 
     console.log(res, 'person');
@@ -653,6 +683,26 @@ export const callNumber = phone => async dispatch => {
 export const FetchComments = StoreId => async dispatch => {
   dispatch({type: 'Spinner', payload: true});
   const res = await axios.post(IP + '/api/markerter/app/FetchComments', {
+    StoreId,
+  });
+  dispatch({type: 'Fetch_Comments', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
+};
+
+export const GetStats = StoreId => async dispatch => {
+  console.log(StoreId, 'working id');
+
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/GetStats', {
+    StoreId,
+  });
+  dispatch({type: 'Fetch_Stats', payload: res.data});
+  dispatch({type: 'Spinner', payload: false});
+};
+
+export const FetchCommentsBOSS = StoreId => async dispatch => {
+  dispatch({type: 'Spinner', payload: true});
+  const res = await axios.post(IP + '/api/markerter/app/FetchCommentsBOSS', {
     StoreId,
   });
   dispatch({type: 'Fetch_Comments', payload: res.data});

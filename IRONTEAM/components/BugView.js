@@ -14,8 +14,6 @@ import {
   TextInput,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import AuthFooter from './AuthFooter';
-
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -25,23 +23,30 @@ import {
   emailChanged,
   annothernameChanged,
   AddProspect,
+  Bug,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 
 const placeholder = {
-  label: 'Select a Product...',
+  label: 'Select Level...',
   value: null,
   color: '#9EA0A4',
 };
-class AddProspectView extends Component {
+
+const placeholder2 = {
+  label: 'Select Product...',
+  value: null,
+  color: '#9EA0A4',
+};
+class BugView extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       EmailError: '',
-      PasswordError: '',
       value: '',
+      item: '',
       Error: '',
     };
   }
@@ -74,29 +79,25 @@ class AddProspectView extends Component {
 
   added() {
     if (this.props.Added) {
-      this.props.navigation.navigate('Searchprospect');
+      this.props.navigation.navigate('UtilitesOPtiions');
       this.props.navigation.navigate('ProfileScreen');
     }
   }
 
   onButtonPress() {
-    const {email, name, tot, type} = this.props;
-    const {value} = this.state;
-
-    console.log(email, name, tot, type, value, 'vals');
-
+    const {email, name} = this.props;
+    const {value, item} = this.state;
     if (
       email == '' ||
-      name == '' ||
-      tot == '' ||
-      type == '' ||
       value == '' ||
-      value == null
+      value == null ||
+      item == '' ||
+      item == null
     ) {
       this.setState({Error: 'Enter All Feilds'});
     } else {
       this.setState({Error: ''});
-      this.props.AddProspect({email, name, tot, type, value});
+      this.props.Bug({email, value, item});
     }
   }
 
@@ -113,7 +114,7 @@ class AddProspectView extends Component {
       return (
         <Button
           onPress={this.onButtonPress.bind(this)}
-          title="Done"
+          title="Report"
           type="outline"
           raised
           containerStyle={{
@@ -128,7 +129,7 @@ class AddProspectView extends Component {
             borderColor: VARIABLES.Color,
             width: '100%',
           }}
-          icon={<Icon name="check-circle" size={20} color="white" />}
+          icon={<Icon name="bug" size={20} color="white" />}
           iconRight
         />
       );
@@ -139,57 +140,39 @@ class AddProspectView extends Component {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView
-          style={{flex: 1, backgroundColor: 'white', paddingTop: 15}}>
-          <Input
-            placeholder="Name"
-            value={this.props.name}
-            onChangeText={this.onEmailC.bind(this)}
-            inputStyle={{}}
-            errorStyle={{color: 'red'}}
-            errorMessage={this.props.EmailError}
-            inputContainerStyle={{width: '90%', alignSelf: 'center'}}
-          />
-          <Input
-            placeholder="Detailed Address"
-            value={this.props.tot}
-            onChangeText={this.onnameC.bind(this)}
-            inputStyle={{}}
-            errorStyle={{color: 'red'}}
-            errorMessage={this.props.EmailError}
-            inputContainerStyle={{
-              width: '90%',
-              alignSelf: 'center',
-              marginTop: 30,
-            }}
-          />
-
-          <Input
-            value={this.props.type}
-            inputStyle={{}}
-            onChangeText={this.onTypeC.bind(this)}
-            placeholder="Type"
-            errorStyle={{color: 'red'}}
-            errorMessage={this.props.PasswordError}
-            inputContainerStyle={{
-              width: '90%',
-              alignSelf: 'center',
-              marginTop: 30,
-            }}
-          />
-
+          style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
           <RNPickerSelect
             onValueChange={value => this.setState({value})}
             style={pickerSelectStyles}
-            placeholder={placeholder}
+            placeholder={placeholder2}
             items={[
               {label: 'Grade Grubb', value: 'GradeGrubb'},
               {label: 'CartAList', value: 'CartAList'},
               {label: 'Building Materials', value: 'BuildingMaterials'},
             ]}
           />
+          <Text style={{fontSize: 30, alignSelf: 'center', marginTop: 40}}>
+            Bug
+          </Text>
 
+          <RNPickerSelect
+            onValueChange={value => this.setState({item: value})}
+            style={pickerSelectStyles}
+            placeholder={placeholder}
+            items={[
+              {label: 'Small Thing', value: 'Small Thing'},
+              {
+                label: 'Wahala',
+                value: 'Wahala',
+              },
+              {
+                label: 'Needed to have been solved yesterday',
+                value: 'Needed to have been solved yesterday',
+              },
+            ]}
+          />
           <Text style={{marginLeft: '5%', marginTop: 10, fontSize: 15}}>
-            I belive this is a good Prospect Because
+            Very Detailed Report
           </Text>
           <TextInput
             style={{
@@ -204,6 +187,7 @@ class AddProspectView extends Component {
             onChangeText={this.onSummeryC.bind(this)}
             value={this.props.email}
           />
+
           <Text style={{color: 'red', alignSelf: 'center'}}>
             {this.state.Error}
           </Text>
@@ -267,5 +251,6 @@ export default connect(
     emailChanged,
     annothernameChanged,
     AddProspect,
+    Bug,
   },
-)(AddProspectView);
+)(BugView);

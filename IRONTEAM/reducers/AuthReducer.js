@@ -23,7 +23,9 @@ const INITIAL_STATE = {
     Items: [],
     Valies: [],
     requesr: [],
+    bug: [],
   },
+  stats: {Scores: [0, 0, 0, 0, 0, 0], Balances: [0, 0, 0, 0, 0, 0]},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -51,6 +53,9 @@ export default (state = INITIAL_STATE, action) => {
       return {...state, itemName: action.payload};
     case 'Fetch_Comments':
       return {...state, Comments: action.payload};
+
+    case 'Fetch_Stats':
+      return {...state, stats: action.payload};
     case 'Quan_changed':
       return {...state, Quan: action.payload};
     case 'Size_changed':

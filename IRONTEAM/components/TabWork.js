@@ -44,6 +44,18 @@ const TabViewExample = props => {
     />
   );
 
+  const ForthRoute = () => (
+    <FlatList
+      style={{height: '62%'}}
+      data={props.bug}
+      renderItem={({item}) => renderRow3(item)}
+      keyExtractor={(item, index) => index}
+      onRefresh={() => renderRefreshControl()}
+      refreshing={props.Loader}
+      initialNumToRender={8}
+    />
+  );
+
   const SecondRoute = () => (
     <FlatList
       style={{maxHeight: '62%'}}
@@ -88,7 +100,6 @@ const TabViewExample = props => {
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
-                width: '90%',
 
                 fontSize: Normalize(15),
               }}>
@@ -99,7 +110,6 @@ const TabViewExample = props => {
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
-                width: '90%',
 
                 fontSize: Normalize(15),
               }}>
@@ -110,7 +120,6 @@ const TabViewExample = props => {
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
-                width: '90%',
 
                 fontSize: Normalize(15),
               }}>
@@ -118,12 +127,6 @@ const TabViewExample = props => {
               {item.Date}{' '}
             </Text>
           </View>
-          <Icon
-            style={{marginRight: '20%'}}
-            name="caret-right"
-            size={30}
-            color={VARIABLES.Color}
-          />
         </View>
       </TouchableOpacity>
     );
@@ -153,7 +156,7 @@ const TabViewExample = props => {
             marginLeft: 20,
             marginTop: 30,
           }}>
-          <View style={{width: '90%'}}>
+          <View>
             <Text
               style={{
                 // alignSelf: 'center',
@@ -169,12 +172,10 @@ const TabViewExample = props => {
               style={{
                 // alignSelf: 'center',
                 //marginBottom: 10,
-                width: '90%',
 
                 fontSize: Normalize(15),
               }}>
-              {' '}
-              {item.Report}{' '}
+              {item.Report}
             </Text>
             <Text
               style={{
@@ -206,21 +207,85 @@ const TabViewExample = props => {
 
                 fontSize: Normalize(15),
               }}>
-              {' '}
               {item.Type}{' '}
             </Text>
           </View>
-          <Icon
-            style={{marginRight: '20%'}}
-            name="caret-right"
-            size={30}
-            color={VARIABLES.Color}
-          />
         </View>
       </TouchableOpacity>
     );
   };
 
+  const renderRow3 = item => {
+    return (
+      <TouchableOpacity
+        onPress={async () => {
+          props.navigation.navigate({
+            routeName: 'StoreItem',
+            params: {
+              item: item,
+              Waiting: 0,
+            },
+          });
+        }}
+        style={{width: SCREENWIDTH}}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: SCREENWIDTH,
+            justifyContent: 'space-between',
+            marginLeft: 20,
+            marginTop: 30,
+          }}>
+          <View>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Issue: '}
+              {item.Item}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+
+                fontSize: Normalize(15),
+              }}>
+              {item.Report}
+            </Text>
+
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {'Date: '}
+              {item.Date}{' '}
+            </Text>
+            <Text
+              style={{
+                // alignSelf: 'center',
+                //marginBottom: 10,
+                width: '90%',
+
+                fontSize: Normalize(15),
+              }}>
+              {item.Type}{' '}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   ///Comment
   const renderRow = item => {
     return (
@@ -261,18 +326,11 @@ const TabViewExample = props => {
                 // alignSelf: 'center',
                 //marginBottom: 10,
                 fontSize: Normalize(15),
-                width: '90%',
               }}>
               {'Date '}
               {item.Date}{' '}
             </Text>
           </View>
-          <Icon
-            style={{marginRight: '20%'}}
-            name="caret-right"
-            size={30}
-            color={VARIABLES.Color}
-          />
         </View>
       </TouchableOpacity>
     );
@@ -280,15 +338,17 @@ const TabViewExample = props => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'first', title: 'Comments'},
+    {key: 'first', title: 'Remarks'},
     {key: 'second', title: 'Q&A'},
     {key: 'third', title: 'Request'},
+    {key: 'forth', title: 'Bugs'},
   ]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
     third: ThirddRoute,
+    forth: ForthRoute,
   });
 
   return (

@@ -6,6 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  AsyncStorage,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import {
@@ -13,9 +15,9 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import {loginUserGoogle} from '../actions';
+import {GetStats} from '../actions';
 import _ from 'lodash';
-import {Input, Button} from 'react-native-elements';
+import {Input, Button, normalize} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {VARIABLES} from '../utils/Variables';
@@ -39,27 +41,20 @@ class StaHome extends Component {
     if (this.props.item == 0) {
       return (
         <View>
-          <Text style={{color: VARIABLES.Color}}>Bezier Line Chart</Text>
+          <Text style={{color: VARIABLES.Color}}>Scores Line Chart</Text>
           <LineChart
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+              labels: [1, 2, 3, 4, 5, 6],
               datasets: [
                 {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                  ],
+                  data: this.props.stats.Scores,
                 },
               ],
             }}
-            width={Dimensions.get('window').width - 20} // from react-native
-            height={Dimensions.get('window').height / 3 - 20}
-            yAxisLabel="₦"
-            yAxisSuffix="k"
+            width={Dimensions.get('window').width - normalize(20)} // from react-native
+            height={Dimensions.get('window').height / 3 - normalize(20)}
+            yAxisLabel=""
+            yAxisSuffix="%"
             chartConfig={{
               backgroundColor: VARIABLES.Color,
               backgroundGradientFrom: VARIABLES.Color,
@@ -88,20 +83,13 @@ class StaHome extends Component {
     if (this.props.item == 1) {
       return (
         <View>
-          <Text>Bezier Line Chart</Text>
+          <Text style={{color: VARIABLES.Color}}>Balance Bar Chart</Text>
           <BarChart
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+              labels: [1, 2, 3, 4, 5, 6],
               datasets: [
                 {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                  ],
+                  data: this.props.stats.Balances,
                 },
               ],
             }}
@@ -160,10 +148,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     Loader: state.auth.Loader,
+    stats: state.auth.stats,
   };
 };
 
 export default connect(
   mapStateToProps,
-  {loginUserGoogle},
+  {GetStats},
 )(StaHome);

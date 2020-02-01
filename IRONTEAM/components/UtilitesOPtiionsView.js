@@ -193,6 +193,47 @@ class UtilitesOPtiionsView extends Component {
               </View>
             </View>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('Bug');
+            }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              backgroundColor: VARIABLES.lightGray,
+              paddingBottom: 15,
+              paddingTop: 15,
+              marginTop: 10,
+            }}>
+            <View
+              style={{
+                width: '90%',
+                marginLeft: 10,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View style={{borderRightWidth: 1, padding: 6}}>
+                <Icon
+                  name="bug"
+                  size={Normalize(20)}
+                  style={{marginRight: 10}}
+                  color={VARIABLES.Color}
+                />
+              </View>
+              <Text style={{fontSize: Normalize(20)}}>{'Report Bug!!!'}</Text>
+              <View>
+                <Icon
+                  name="chevron-right"
+                  size={Normalize(15)}
+                  style={{marginRight: 10}}
+                  color={VARIABLES.Color}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
 
           {this.added()}
         </SafeAreaView>
