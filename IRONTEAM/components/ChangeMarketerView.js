@@ -1,10 +1,8 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
-  View,
-  Text,
   SafeAreaView,
-  Image,
   FlatList,
   Dimensions,
   Platform,
@@ -14,19 +12,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
-import ProspectListBoss from './ProspectListBoss';
+import BossSection from './BossSection';
+import BossHeader from './BossHeader';
+
+import NewMarketerList from './NewMarketerList';
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {FetchProspects, NameChanged, Delivered} from '../actions';
+import {NameChanged, FetchMarketers} from '../actions';
 import {connect} from 'react-redux';
 import Normalize from '../utils/Normalize';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NavigationEvents} from 'react-navigation';
-import {Footer} from './Footer';
 
 const SCREENWIDTH = Dimensions.get('window').width;
 
-class SearchprospectBossViews extends Component {
+class ChangeMarketerView extends Component {
   constructor(props) {
     super(props);
 
@@ -35,24 +35,20 @@ class SearchprospectBossViews extends Component {
       PasswordError: '',
       Profiles: {Partner: []},
       isLoading: false,
+      Prospect: this.props.navigation.state.params.Prospect,
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //componentDidMount
-    this.props.FetchProspects();
+    AsyncStorage.getItem('loginToken')
+      .then(value => {
+        this.setState({_id: JSON.parse(value)});
+        this.props.FetchMarketers(JSON.parse(value));
+        console.log(this.state._id, 'id');
+      })
+      .done();
   }
-
-  componentDidFocus() {
-    console.log('lol');
-
-    this.props.FetchProspects();
-  }
-
-  onNameC(text) {
-    this.props.NameChanged(text);
-  }
-
   getProfiles() {
     return this.state.Profiles.Partner;
   }
@@ -60,12 +56,16 @@ class SearchprospectBossViews extends Component {
   renderRefreshControl() {
     this.setState({isLoading: true});
   }
+
+  onNameC(text) {
+    this.props.NameChanged(text);
+  }
   renderList() {
     if (this.props.Loader) {
       return (
         <ActivityIndicator
           style={{
-            marginTop: Normalize(10),
+            marginTop: 10,
             alignSelf: 'center',
             justifyContent: 'center',
             flex: 1,
@@ -77,16 +77,13 @@ class SearchprospectBossViews extends Component {
     }
     return (
       <FlatList
-        style={{height: '90%'}}
-        data={this.props.items
-          .filter(items => {
-            return (
-              items.Name.toLowerCase().indexOf(
-                this.props.name.toLowerCase(),
-              ) !== -1
-            );
-          })
-          .reverse()}
+        style={{height: '72%'}}
+        data={this.props.items.filter(items => {
+          return (
+            items.Name.toLowerCase().indexOf(this.props.name.toLowerCase()) !==
+            -1
+          );
+        })}
         renderItem={({item}) => this.renderRow(item)}
         keyExtractor={(item, index) => index}
         onRefresh={() => this.renderRefreshControl()}
@@ -97,40 +94,33 @@ class SearchprospectBossViews extends Component {
   }
 
   renderRow(item) {
-    return <ProspectListBoss navigation={this.props.navigation} item={item} />;
-  }
-
-  onButtonPress() {
-    this.props.navigation.navigate('AddProspect');
+    return (
+      <NewMarketerList
+        navigation={this.props.navigation}
+        founder={this.state.Prospect.Founder}
+        prospect={this.state.Prospect._id}
+        item={item}
+      />
+    );
   }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <NavigationEvents
-            onDidFocus={() => {
-              this.props.FetchProspects();
-            }}
+        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <Input
+            placeholder="...Search Name"
+            leftIcon={<Icon name="search" size={20} color={VARIABLES.Color} />}
+            containerStyle={{width: '80%', marginTop: 5}}
+            value={this.props.name}
+            onChangeText={this.onNameC.bind(this)}
+            errorStyle={{color: 'red', marginLeft: '5%'}}
+            inputStyle={{marginLeft: 5}}
+            errorMessage={this.props.NameError}
+            inputContainerStyle={{width: '100%'}}
           />
-
-          <SafeAreaView style={{backgroundColor: 'white', marginLeft: 20}}>
-            <Input
-              placeholder="...Search Name"
-              leftIcon={
-                <Icon name="search" size={20} color={VARIABLES.Color} />
-              }
-              containerStyle={{width: '80%', marginBottom: 10}}
-              value={this.props.name}
-              onChangeText={this.onNameC.bind(this)}
-              errorStyle={{color: 'red', marginLeft: '5%'}}
-              inputStyle={{marginLeft: 5}}
-              errorMessage={this.props.NameError}
-              inputContainerStyle={{width: '100%'}}
-            />
-            {this.renderList()}
-          </SafeAreaView>
-        </View>
+          {this.renderList()}
+        </SafeAreaView>
       </TouchableWithoutFeedback>
     );
   }
@@ -139,7 +129,7 @@ class SearchprospectBossViews extends Component {
 //GetCart(this.props.auth.Cart, this.props.create.Market),
 const mapStateToProps = state => {
   return {
-    items: state.auth.Companies,
+    items: state.auth.items,
     Loader: state.auth.Loader,
     name: state.auth.name,
   };
@@ -147,5 +137,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {FetchProspects, NameChanged, Delivered},
-)(SearchprospectBossViews);
+  {NameChanged, FetchMarketers},
+)(ChangeMarketerView);

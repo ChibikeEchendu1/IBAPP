@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import {VARIABLES} from '../utils/Variables';
 import MyProspectList from './MyProspectList';
-import RNRestart from 'react-native-restart'; // Import package from node modules
 
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -27,8 +26,7 @@ import {
   TypeChanged,
   emailChanged,
   annothernameChanged,
-  SignOut,
-  Delete,
+  DeleteProspect,
 } from '../actions';
 import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
@@ -41,7 +39,7 @@ const placeholder = {
   value: null,
   color: '#9EA0A4',
 };
-class SettingsView extends Component {
+class ProspectOPtiionsView extends Component {
   constructor(props) {
     super(props);
 
@@ -50,6 +48,8 @@ class SettingsView extends Component {
       PasswordError: '',
       value: '',
       isLoading: false,
+
+      Prospect: this.props.navigation.state.params.Prospect,
     };
   }
 
@@ -81,10 +81,8 @@ class SettingsView extends Component {
 
   added() {
     if (this.props.Added) {
-      this.props.navigation.navigate('ProfileScreen');
-
-      this.props.navigation.navigate('AuthScreen');
-      RNRestart.Restart();
+      this.props.navigation.navigate('SearchprospectBoss');
+      this.props.navigation.navigate('BossScreen');
     }
   }
 
@@ -92,75 +90,143 @@ class SettingsView extends Component {
     return <MyProspectList navigation={this.props.navigation} item={item} />;
   }
 
-  renderRefreshControl() {
-    this.setState({isLoading: true});
-  }
-
   renderDelete() {
     if (this.props.Loader) {
       return (
         <ActivityIndicator
-          style={{marginTop: 10, alignSelf: 'center'}}
+          style={{
+            marginTop: Normalize(10),
+            alignSelf: 'center',
+            justifyContent: 'center',
+            flex: 1,
+          }}
           color={VARIABLES.Color}
           size={'large'}
         />
-      ); //
-    } else {
-      return (
-        <TouchableOpacity
-          onPress={() => {
-            this.props.Delete();
-          }}
+      );
+    }
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          this.props.DeleteProspect(
+            this.state.Prospect._id,
+            this.state.Prospect.Founder,
+          );
+        }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: VARIABLES.lightGray,
+          paddingBottom: 15,
+          paddingTop: 15,
+          marginTop: 10,
+        }}>
+        <View
           style={{
+            width: '90%',
+            marginLeft: 10,
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            flexDirection: 'row',
             justifyContent: 'space-between',
-            backgroundColor: VARIABLES.lightGray,
-            paddingBottom: 15,
-            paddingTop: 15,
-            marginTop: 10,
           }}>
+          <View style={{borderRightWidth: 1, padding: 6}}>
+            <Icon
+              name="trash"
+              size={Normalize(15)}
+              style={{marginRight: 10}}
+              color={VARIABLES.Color}
+            />
+          </View>
+          <Text style={{fontSize: Normalize(20)}}>{'Delete'}</Text>
+          <View>
+            <Icon
+              name="chevron-right"
+              size={Normalize(15)}
+              style={{marginRight: 10}}
+              color={VARIABLES.Color}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  renderRefreshControl() {
+    this.setState({isLoading: true});
+  }
+
+  render() {
+    const {Name, Persentage, Contacts} = this.state.Prospect;
+
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView
+          style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
           <View
             style={{
               width: '90%',
               marginLeft: 10,
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <View style={{borderRightWidth: 1, padding: 6}}>
-              <Icon
-                name="trash"
-                size={Normalize(15)}
-                style={{marginRight: 10}}
-                color={VARIABLES.Color}
-              />
-            </View>
-
-            <Text style={{fontSize: Normalize(20)}}>{'Delete Account'}</Text>
-            <View>
-              <Icon
-                name="chevron-right"
-                size={Normalize(15)}
-                style={{marginRight: 10}}
-                color={VARIABLES.Color}
-              />
-            </View>
+            <Text style={{fontSize: Normalize(30)}}>{Name}</Text>
           </View>
-        </TouchableOpacity>
-      );
-    }
-  }
 
-  render() {
-    return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <SafeAreaView
-          style={{flex: 1, backgroundColor: 'white', marginTop: '5%'}}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.navigate('Payment');
+              this.props.navigation.navigate('ChangeRate', {
+                Prospect: this.state.Prospect,
+              });
+            }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: VARIABLES.lightGray,
+              paddingBottom: 15,
+              paddingTop: 15,
+              marginTop: 10,
+            }}>
+            <View
+              style={{
+                width: '90%',
+                marginLeft: 10,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+              <View style={{borderRightWidth: 1, padding: 6}}>
+                <Icon
+                  name="level-up"
+                  size={Normalize(15)}
+                  style={{marginRight: 10}}
+                  color={VARIABLES.Color}
+                />
+              </View>
+              <Text style={{fontSize: Normalize(20)}}>
+                {'Change Marketer Rate'}
+              </Text>
+              <View>
+                <Icon
+                  name="chevron-right"
+                  size={Normalize(15)}
+                  style={{marginRight: 10}}
+                  color={VARIABLES.Color}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('ChangeMarketer', {
+                Prospect: this.state.Prospect,
+              });
             }}
             style={{
               display: 'flex',
@@ -182,13 +248,13 @@ class SettingsView extends Component {
               }}>
               <View style={{borderRightWidth: 1, padding: 6}}>
                 <Icon
-                  name="credit-card"
+                  name="exchange"
                   size={Normalize(15)}
                   style={{marginRight: 10}}
                   color={VARIABLES.Color}
                 />
               </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Payment Info'}</Text>
+              <Text style={{fontSize: Normalize(20)}}>{'Change Marketer'}</Text>
               <View>
                 <Icon
                   name="chevron-right"
@@ -199,91 +265,8 @@ class SettingsView extends Component {
               </View>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.navigate('Password');
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="lock"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Password'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.SignOut();
-            }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: VARIABLES.lightGray,
-              paddingBottom: 15,
-              paddingTop: 15,
-              marginTop: 10,
-            }}>
-            <View
-              style={{
-                width: '90%',
-                marginLeft: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <View style={{borderRightWidth: 1, padding: 6}}>
-                <Icon
-                  name="sign-out"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-              <Text style={{fontSize: Normalize(20)}}>{'Sign Out'}</Text>
-              <View>
-                <Icon
-                  name="chevron-right"
-                  size={Normalize(15)}
-                  style={{marginRight: 10}}
-                  color={VARIABLES.Color}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
           {this.renderDelete()}
+
           {this.added()}
         </SafeAreaView>
       </TouchableWithoutFeedback>
@@ -313,7 +296,6 @@ export default connect(
     TypeChanged,
     emailChanged,
     annothernameChanged,
-    SignOut,
-    Delete,
+    DeleteProspect,
   },
-)(SettingsView);
+)(ProspectOPtiionsView);

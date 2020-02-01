@@ -26,6 +26,7 @@
     "react-native-progress-circle": "^2.1.0",
     "react-native-ratings": "^6.5.0",
     "react-native-reanimated": "^1.7.0",
+    "react-native-restart": "0.0.13",
     "react-native-screens": "^2.0.0-alpha.19",
     "react-native-svg": "^11.0.1",
     "react-native-tab-view": "^2.11.0",

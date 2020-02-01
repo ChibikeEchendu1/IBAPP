@@ -24,6 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Variables, {VARIABLES} from './utils/Variables';
 import Searchprospect from './screens/Searchprospect';
 import SearchprospectBoss from './screens/SearchprospectBoss';
+import ChangeMarketer from './screens/ChangeMarketer';
 
 import AuthScreen from './screens/AuthScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
@@ -45,7 +46,6 @@ import Bug from './screens/Bug';
 import Statistics from './screens/Statistics';
 import CommentsScreen from './screens/CommentsScreen';
 import CommentsScreenBoss from './screens/CommentsScreenBoss';
-
 import {connect} from 'react-redux';
 import Settings from './screens/Settings';
 import Payment from './screens/Payment';
@@ -56,6 +56,8 @@ import ProspectHomeMarketer from './screens/ProspectHomeMarketer';
 import Champion from './screens/Champion';
 import TheDeal from './screens/TheDeal';
 import EditMarketer from './screens/EditMarketer';
+import EditProspect from './screens/EditProspect';
+import ChangeRate from './screens/ChangeRate';
 
 import {BackHeader} from './components/BackHeader';
 //import ProfileScreen from './screens/ProfileScreen';
@@ -635,6 +637,76 @@ const TabNavigator = createBottomTabNavigator({
                 ),
               }),
             },
+            EditProspect: {
+              screen: EditProspect,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>EDIT PROSPECT</Text>
+                ),
+              }),
+            },
+
+            ChangeRate: {
+              screen: ChangeRate,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHANGE RATE</Text>
+                ),
+              }),
+            },
+            ChangeMarketer: {
+              screen: ChangeMarketer,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHANGE MARKETER</Text>
+                ),
+              }),
+            },
             TheDeal: {
               screen: TheDeal,
               navigationOptions: ({navigate, navigation, goBack}) => ({
@@ -768,6 +840,121 @@ const TabNavigator = createBottomTabNavigator({
                 ),
                 headerTitle: () => (
                   <Text style={{color: VARIABLES.Color}}>PROSPECT</Text>
+                ),
+              }),
+            },
+            EditProspect: {
+              screen: EditProspect,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>Edit PROSPECT</Text>
+                ),
+              }),
+            },
+            TheDeal: {
+              screen: TheDeal,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>DEAL</Text>
+                ),
+              }),
+            },
+            Champion: {
+              screen: Champion,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHAMPION</Text>
+                ),
+              }),
+            },
+            ChangeRate: {
+              screen: ChangeRate,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHANGE RATE</Text>
+                ),
+              }),
+            },
+            ChangeMarketer: {
+              screen: ChangeMarketer,
+              navigationOptions: ({navigate, navigation, goBack}) => ({
+                gesturesEnabled: false,
+
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={{marginLeft: 20}}
+                    onPress={() => {
+                      navigation.goBack();
+                    }}>
+                    <Icon
+                      color={VARIABLES.Color}
+                      size={25}
+                      name={'chevron-left'}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTitle: () => (
+                  <Text style={{color: VARIABLES.Color}}>CHANGE MARKETER</Text>
                 ),
               }),
             },

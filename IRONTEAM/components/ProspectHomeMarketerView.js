@@ -33,6 +33,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Colorlize from '../utils/Colorlize';
 import ColorlizeObject from '../utils/ColorlizeObject';
 import Normalize from '../utils/Normalize';
+import DisableObject from '../utils/DisableObject';
 
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
@@ -119,6 +120,7 @@ class ProspectHomeMarketerView extends Component {
               marginBottom: Normalize(30),
             }}>
             <TouchableOpacity
+              disabled={DisableObject(Champion)}
               onPress={() => {
                 this.props.navigation.navigate('Champion', {
                   Prospect: this.state.Prospect,
@@ -134,6 +136,7 @@ class ProspectHomeMarketerView extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
+              disabled={DisableObject(Deal)}
               onPress={() => {
                 this.props.navigation.navigate('TheDeal', {
                   Prospect: this.state.Prospect,
@@ -186,11 +189,35 @@ class ProspectHomeMarketerView extends Component {
             />
           </TouchableOpacity>
           <View>
-            <Text style={{fontSize: 20, marginTop: 50, marginLeft: '8%'}}>
+            <Button
+              onPress={() => {
+                this.props.navigation.navigate('EditProspect', {
+                  Prospect: this.state.Prospect,
+                });
+              }}
+              title="Edit"
+              type="outline"
+              raised
+              containerStyle={{
+                marginTop: 20,
+                alignSelf: 'center',
+                marginRight: 20,
+                width: '50%',
+              }}
+              titleStyle={{color: 'white', marginRight: 10}}
+              buttonStyle={{
+                backgroundColor: VARIABLES.Color,
+                borderColor: VARIABLES.Color,
+                width: '100%',
+              }}
+              icon={<Icon name="edit" size={20} color="white" />}
+              iconRight
+            />
+            <Text style={{fontSize: 20, marginTop: 10, marginLeft: '8%'}}>
               Contacts
             </Text>
             <FlatList
-              style={{height: '52%', marginLeft: '8%'}}
+              style={{height: '52%', marginLeft: '8%', borderWidth: 1}}
               data={Contacts.filter(items => {
                 return (
                   items.Name.toLowerCase().indexOf(

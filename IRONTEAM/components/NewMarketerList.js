@@ -13,7 +13,7 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
-import {loginUserGoogle} from '../actions';
+import {SetMarketer} from '../actions';
 import _ from 'lodash';
 import {Input, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -26,32 +26,42 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 const barWidth = Dimensions.get('screen').width - 40;
 
-class ProspectListBoss extends Component {
+class NewMarketerList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {namegoogle: '', emailgoogle: ''};
+    this.state = {namegoogle: '', emailgoogle: '', value: 20};
+  }
+
+  added() {
+    if (this.props.Added) {
+      this.props.navigation.navigate('BossScreen');
+    }
   }
 
   render() {
     return (
-      <View style={{marginTop: 10, flex: 1}}>
+      <View style={{marginTop: 25, flex: 1, marginLeft: 7}}>
         <TouchableOpacity
           onPress={() => {
-            this.props.navigation.navigate('ProspectHomeMarketer', {
-              Prospect: this.props.item,
-            });
+            console.log('nave');
+
+            this.props.SetMarketer(
+              this.props.item._id,
+              this.props.founder,
+              this.props.prospect,
+            );
+          }}
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}>
-          <View>
-            <Text
-              style={{
-                color: this.props.item.Founder == '-1' ? 'red' : 'black',
-              }}>
+          <View style={{width: '90%'}}>
+            <Text style={{color: this.props.item.Fired ? 'red' : 'bleck'}}>
               Name: {this.props.item.Name}
             </Text>
-            <Text>Address: {this.props.item.Address}</Text>
-            <Text>Product: {this.props.item.Product}</Text>
-
             <ProgressBarAnimated
               width={barWidth}
               value={this.props.item.Persentage}
@@ -59,6 +69,7 @@ class ProspectListBoss extends Component {
               backgroundColorOnComplete="#6CC644"
             />
           </View>
+          {this.added()}
         </TouchableOpacity>
       </View>
     );
@@ -84,10 +95,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     Loader: state.auth.Loader,
+    Added: state.auth.Added,
   };
 };
 
 export default connect(
   mapStateToProps,
-  {loginUserGoogle},
-)(ProspectListBoss);
+  {SetMarketer},
+)(NewMarketerList);

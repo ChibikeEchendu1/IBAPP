@@ -32,6 +32,7 @@ import {connect} from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import Colorlize from '../utils/Colorlize';
 import ColorlizeObject from '../utils/ColorlizeObject';
+import DisableObject from '../utils/DisableObject';
 
 import Normalize from '../utils/Normalize';
 
@@ -120,6 +121,7 @@ class ProspectHomeView extends Component {
               marginBottom: Normalize(30),
             }}>
             <TouchableOpacity
+              disabled={DisableObject(Champion)}
               onPress={() => {
                 this.props.navigation.navigate('Champion', {
                   Prospect: this.state.Prospect,
@@ -135,6 +137,7 @@ class ProspectHomeView extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
+              disabled={DisableObject(Deal)}
               onPress={() => {
                 this.props.navigation.navigate('TheDeal', {
                   Prospect: this.state.Prospect,

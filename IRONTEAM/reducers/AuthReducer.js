@@ -16,6 +16,8 @@ const INITIAL_STATE = {
   AN: '',
   DealError: '',
   items: [],
+  subsequent: '',
+  first: '',
   Profile: {},
   Loader: false,
   Added: false,
@@ -72,6 +74,10 @@ export default (state = INITIAL_STATE, action) => {
     case 'Password_changed':
       return {...state, password: action.payload};
 
+    case 'First_Changed':
+      return {...state, first: action.payload};
+    case 'Subsquent_Changed':
+      return {...state, subsequent: action.payload};
     case 'Deal_changed':
       return {...state, deal: action.payload, DealError: ''};
 

@@ -169,7 +169,7 @@ class AddProspectView extends Component {
             onChangeText={this.onTypeC.bind(this)}
             placeholder="Type"
             errorStyle={{color: 'red'}}
-            errorMessage={this.props.PasswordError}
+            errorMessage={null}
             inputContainerStyle={{
               width: '90%',
               alignSelf: 'center',
@@ -205,9 +205,11 @@ class AddProspectView extends Component {
             value={this.props.email}
           />
           <Text style={{color: 'red', alignSelf: 'center'}}>
-            {this.state.Error}
+            {this.state.Error} {this.props.PasswordError}
           </Text>
+
           {this.renderButton()}
+
           {this.added()}
         </SafeAreaView>
       </TouchableWithoutFeedback>

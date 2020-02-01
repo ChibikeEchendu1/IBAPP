@@ -20,6 +20,20 @@ export const PasswordChanged = text => {
   };
 };
 
+export const FirstChanged = text => {
+  return {
+    type: 'First_Changed',
+    payload: text,
+  };
+};
+
+export const SubsquentChanged = text => {
+  return {
+    type: 'Subsquent_Changed',
+    payload: text,
+  };
+};
+
 export const DealChanged = text => {
   if (text > 10) {
     return {
@@ -251,6 +265,76 @@ export const ChangeScore = ({tot, _id}) => {
     const res = await axios.post(IP + '/api/markerter/app/ChangeScore', {
       tot,
       _id,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const ChangeShare = ({value, sub, first, _id, Founder}) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/ChangeShare', {
+      value,
+      sub,
+      first,
+      _id,
+      Founder,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const SetMarketer = (newfounder, oldfounder, prospect) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/SetMarketer', {
+      newfounder,
+      oldfounder,
+      prospect,
+    });
+
+    console.log(res, 'person');
+
+    if (typeof res.data.error != 'undefined') {
+      dispatch({type: 'Password_Error', payload: res.data.error});
+    } else {
+      dispatch({type: 'Added', payload: true});
+    }
+
+    dispatch({type: 'Spinner', payload: false});
+  };
+};
+
+export const DeleteProspect = (prospect, Founder) => {
+  console.log('we here');
+
+  return async dispatch => {
+    dispatch({type: 'Spinner', payload: true});
+    const res = await axios.post(IP + '/api/markerter/app/DeleteProspect', {
+      prospect,
+      Founder,
     });
 
     console.log(res, 'person');
